@@ -1,0 +1,7 @@
+stages:
+  - deploy
+
+Deploy containers:
+  stage: deploy
+  script:
+    - bin/deploy_stg.sh

@@ -1,0 +1,31 @@
+version: '2'
+services:
+  db:
+    image: mysql:8.0
+    container_name: appsDB
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_DATABASE: yagodka
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: root
+
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: db
+
+  www:
+    links:
+      - db
+    build: .
+    ports:
+      - '80:80'

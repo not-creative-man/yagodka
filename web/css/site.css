@@ -1,0 +1,283 @@
+:root {
+    --header-footer-violet-clr: #3C368E;
+    --main-yellow-clr: #F4CB4B;
+    --main-red-clr: #FF545C;
+    --main-white-color: #FFFFFF;
+    --main-violet-color: #524AA0;
+    --logo-size: 100px;
+    --default-text-line-size: 20px;
+    --default-input-height: 40px;
+    --default-input-width: 250px;
+    --default-input-border-radius: 10px;
+    --main-font: "Montserrat";
+    --header-font: "Comic CAT";
+    --dropdown-menu-a-line-height: 18px;
+}
+
+@font-face{
+    font-family: "Comic Neue";
+    font-style: normal;
+    font-weight: 400;
+    src: url('../../web/fonts/comicNeue.ttf');
+}
+
+html,
+body {
+    height: 100%;
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+h1,
+.h1 {
+    font-family: "Comic CAT" !important;
+    font-size: 96px;
+}
+
+.very-small-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -60px;
+    padding: 0 0 0;
+}
+
+.wrap>.container {
+    padding: 100px 15px 20px;
+}
+
+.footer {
+    height: 177px;
+    border-top: 1px solid #ddd;
+}
+
+.jumbotron {
+    text-align: center;
+    background-color: transparent;
+}
+
+.jumbotron .btn {
+    font-size: 22px;
+    padding: 14px 24px;
+}
+
+.not-set {
+    color: #c55;
+    font-style: italic;
+}
+
+
+/* add sorting icons to gridview sort links */
+
+a.asc:after,
+a.desc:after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    padding-left: 5px;
+}
+
+a.asc:after {
+    content: /*"\e113"*/
+    "\e151";
+}
+
+a.desc:after {
+    content: /*"\e114"*/
+    "\e152";
+}
+
+.sort-numerical a.asc:after {
+    content: "\e153";
+}
+
+.sort-numerical a.desc:after {
+    content: "\e154";
+}
+
+.sort-ordinal a.asc:after {
+    content: "\e155";
+}
+
+.sort-ordinal a.desc:after {
+    content: "\e156";
+}
+
+.grid-view th {
+    white-space: nowrap;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+
+
+/* align the logout "link" (button in form) of the navbar */
+
+.nav li>form>button.logout {
+    padding: 15px;
+    border: none;
+}
+
+@media(max-width:767px) {
+    .nav li>form>button.logout {
+        display: block;
+        text-align: left;
+        width: 100%;
+        padding: 10px 15px;
+    }
+}
+
+.nav>li>form>button.logout:focus,
+.nav>li>form>button.logout:hover {
+    text-decoration: none;
+}
+
+.nav>li>form>button.logout:focus {
+    outline: none;
+}
+
+
+/*MyPincOyayay*/
+
+.main-header {
+    text-align: center;
+    color: white;
+    font-size: 7vh;
+}
+
+.table-body,
+.settings-body {
+    /*box-shadow: 4px 4px rgba(0, 0, 0, 0.32);*/
+    padding: 0;
+    /*font-size: 2vh;*/
+}
+
+.row-special {
+    background-color: #9c5685;
+    text-align: center;
+    font-size: 2.5vh;
+    color: white;
+}
+
+.img-small-borders {
+    border-radius: 100%;
+    width: 8vh;
+    height: 8vh;
+    overflow: hidden;
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px #9c5685;
+    margin: 5px;
+}
+
+.img-small {
+    width: 100%;
+}
+
+.row-odd {
+    background-color: #fefefe;
+    text-align: left;
+}
+
+.row-even {
+    background-color: #eeeeee;
+    text-align: left;
+}
+
+.table-text {
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+:focus {
+    outline: none;
+}
+
+.row-even>div {
+    height: 9vh;
+}
+
+.row-odd>div {
+    height: 9vh;
+}
+
+a {
+    color: #9c5685;
+}
+
+a:hover {
+    color: #9c5685;
+}
+
+.new {
+    background-color: #9c5685;
+    border-radius: 100%;
+    padding: 0 4px 0 4px;
+    color: white;
+}
+
+.logo-img {
+    height: var(--logo-size);
+    width: var(--logo-size);
+}
+
+.navbar-inverse {
+    height: 100px;
+    background-color: var(--header-footer-violet-clr);
+}
+
+.navbar-nav{
+    display:flex;
+}
+
+.navbar-nav > li{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.navbar-brand {
+    padding: 0;
+}
+
+@media(min-width: 1200px) {
+    .container_site {
+        width: 100%;
+    }
+}
+
+@media (min-width: 992px) {
+    .container_site {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .container_site {
+        width: 100%;
+    }
+}
+
+.footer{
+    padding: 0 !important;
+}

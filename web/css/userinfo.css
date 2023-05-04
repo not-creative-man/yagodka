@@ -1,0 +1,62 @@
+.govno{
+    color: red;
+    font-size: 30px;
+}
+
+.test-panel {
+
+    margin:  10px;
+}
+
+.glyphicon {
+    font-size: 30px;
+}
+
+.glyphicon-ok-circle {
+    color: lawngreen;
+}
+
+.glyphicon-remove-circle {
+    color: red;
+}
+
+.glyphicon-ban-circle {
+    color: orange;
+}
+
+.header-role{
+    text-transform: uppercase;
+}
+
+.avatar{
+    width: 100%;
+    padding-bottom: 15px;
+}
+
+.null-panel{
+    padding: 0;
+}
+
+.small-avatar{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+}
+
+.groupmate-well{
+    margin: 5px;
+}
+
+.helper{
+    color: #777;
+}
+
+.btn-edit{
+    font-size: small;
+    color: #777777;
+}
+
+#col {
+    vertical-align: middle;
+    width: 30%;
+}
