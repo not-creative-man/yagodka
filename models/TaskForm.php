@@ -29,7 +29,7 @@ class TaskForm extends Model
         ];
     }
 
-    public function register()
+    public function register($uid)
     {
         if (!$this->validate())
             return false;
@@ -40,6 +40,7 @@ class TaskForm extends Model
             $task->$key = $value;
         }
         $task->status = 0;
+        $task->author = $uid;
         $task->save();
 
         return true;

@@ -95,7 +95,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
     }
     .member-task h3 {
         margin-top: 0;
-        align-self: flex-start;!important;
+        align-self: flex-start !important;
     }
     .member-img {
         display: flex;
@@ -121,7 +121,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
         align-self: center;
     }
     .table > tbody > tr > td {
-        border: none;!important;
+        border: none!important;
     }
     .br-50 {
         border-radius: 50%;
@@ -209,9 +209,11 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
                                 <h3 class="task-title"><?= $task->name ?>.</h3>
                                 <p>Выполнить до <?= $task->deadline?></p>
                             </div>
-                            <?php if(!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MEMBER) :
-                                $icon='<sup class="fa fa-pencil"></sup>';
-                                echo Html::a($icon, ['site/edit-task', 'tid' => $task->id]); endif; ?>
+                            <?php if(!Yii::$app->user->isGuest && 
+                                Yii::$app->user->identity->role_id >= User::ROLE_MEMBER && 
+                                ($user->id === $task->author && $task->author != null || Yii::$app->user->identity->role_id > User::ROLE_MEMBER)) :
+                                    $icon='<sup class="glyphicon glyphicon-pencil btn-edit"></sup>';
+                                    echo Html::a($icon, ['site/edit-task', 'tid' => $task->id]); endif; ?>
                         </div>
                         <div>
                             <p style="vertical-align: middle; margin-bottom: 20px;"><?= $task->task ?><br><b class="span">Максимум участников:</b> <?= $task->max_user ?></p>
@@ -252,9 +254,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
                                 Modal::begin([
                                     'header' => '<h3>' . $task->name . '</h3>',
                                     'toggleButton' => [
-                                        'label' => '&#8226;     &#8226;     &#8226;',
+                                        'label' => '',
                                         'tag' => 'i',
-                                        'class' => 'more',
+                                        'class' => 'fas fa-ellipsis-h',
                                     ]
                                 ]);
                                 ?>
@@ -281,7 +283,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
                                                 <div class="col-xs-1"></div>
                                                 <div class="col-xs-1">
                                                     <div class="table-text">
-                                                        <?php if(!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MEMBER) :
+                                                        <?php if(!Yii::$app->user->isGuest &&
+                                                            Yii::$app->user->identity->role_id >= User::ROLE_MEMBER &&
+                                                            ($user->id === $task->author && $task->author != null || Yii::$app->user->identity->role_id > User::ROLE_MEMBER)) :
                                                             $icon = '<i class="fa fa-times"></i>';
                                                             echo Html::a($icon, ['site/delete-user-task', 'ids' => array('uid' => $user->id, 'tid' => $task->id) ]); endif; ?>
                                                     </div>

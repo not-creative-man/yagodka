@@ -149,7 +149,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     public function getBirth(){
-        return $this->birth;
+        return Yii::$app->formatter->format($this->birth, 'date');
     }
 
     public function rating() {

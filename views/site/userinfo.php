@@ -7,6 +7,7 @@
  */
 
 use app\models\User;
+use app\models\UserAttributes;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -77,16 +78,49 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
     }
 </style>
 
-<div class="row">
+<div class="row"> <!-- Блок с заголовочной частью -->
     <div class="page-header">
         <h1>
-            <?=$user->surname.' '.$user->name.' '.$user->patronymic ?>
+            <?=($user->status == 2)?("Сухофрукт $user->berry"):($user->berry) ?>
             <?php if (!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MANAGER):?>
                 <a href="<?= Url::to(['site/edit-user', 'uid' => $user->id]) ?>"><sup><i class="glyphicon glyphicon-pencil btn-edit"></i></sup></a>
             <?php endif; ?>
             <small class="header-role"><?= $user->getRoleName() ?></small>
-            <small class="header-role"><?= $user->getBirth() ?></small>
+            <!-- <small class="header-role"><?= $user->getBirth() != null ? $user->getBirth() : '' ?></small> -->
         </h1>
+    </div>
+</div>
+
+<div class="row">
+    <?php 
+        $userAvatar = User::userAvatar($user);
+        $img = Html::img($userAvatar, ['class'=>($user->status == 2)?('avatar dryed'):('avatar')]);
+        // $img = "<img class='($user->status == 2)?('Сухофрукт $user->berry'):($user->berry)avatar' src='{$userAvatar}'/>";
+        if (!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MANAGER) {
+            echo Html::a($img, ['site/upload-avatar', 'uid' =>$user->id]);
+        } else {
+            echo $img;
+        }
+    ?>
+
+    <div class="info-container">
+        <?php 
+            $attr = UserAttributes::getUserAttributes($user->id);
+            if($userattributes->isu != null){
+                echo "$user->surname"."$user->name"."$user->patronymic"."(<a href='https://isu.ifmo.ru/pls/apex/f?p=2143:PERSON:105073053240714::NO:RP:PID:".$userattributes->isu."'>$userattributes->isu</a>)";
+            } else {
+                foreach ($attr as $attribute):
+                    echo $attribute->attribute_name;
+                    switch($attribute->attribute_name){
+                        case "isu":
+                           echo "$user->surname"."$user->name"."$user->patronymic"."(<a href='https://isu.ifmo.ru/pls/apex/f?p=2143:PERSON:105073053240714::NO:RP:PID:".$attribute->isu."'>$attribute->isu</a>)";
+                           break;
+                        default:
+                            echo "3 ";
+                    }
+                endforeach;
+            }
+        ?>
     </div>
 </div>
 
@@ -100,7 +134,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
         <div>
             <?php
             $userAvatar = User::userAvatar($user);
-            $img = "<img class='avatar' src='{$userAvatar}'/>";
+            $img = Html::img($userAvatar, ['class'=>($user->status == 2)?('avatar dryed'):('avatar')]);
+            // $img = "<img class='($user->status == 2)?('Сухофрукт $user->berry'):($user->berry)avatar' src='{$userAvatar}'/>";
             if (!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MANAGER) {
                 echo Html::a($img, ['site/upload-avatar', 'uid' =>$user->id]);
             } else {
@@ -134,7 +169,6 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
                     <tr>
                         <td><?php echo "<i class=\"far fa-address-card\"></i> :<a href='https://isu.ifmo.ru/pls/apex/f?p=2143:PERSON:102529604385000::NO::PID:".$userattributes->isu."'>";?><?= $userattributes->isu ?></td>
                     </tr>
-                    <tr><td><span class="govno">купи говна</span></td></tr>
             </table>
         </div>
 
@@ -268,6 +302,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
 
             </div>
         </div>
+    </div>
+</div>
 
 <?php 
     $this->registerCssFile('@web/css/userinfo.css')

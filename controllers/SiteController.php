@@ -7,6 +7,7 @@ use app\models\CashForm;
 use app\models\Event;
 use app\models\EventForm;
 use app\models\EventToUser;
+use app\models\IndexForm;
 use app\models\Task;
 use app\models\TaskForm;
 use app\models\TaskToUser;
@@ -95,11 +96,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $model = new IndexForm();
         $member_count = User::find()->where(['status' => 1])->count();
         $event_count = Event::find()->where(['status' => 1])->count();
         $total_coverage = Event::find()->where(['status' => 1])->sum('coverage');
 
         return $this->render('index', [
+            'model' => $model,
             'member_count' => $member_count,
             'event_count' => $event_count,
             'total_coverage' => $total_coverage
@@ -157,14 +160,20 @@ class SiteController extends Controller
     public function actionContact()
     {
         $model = new ContactForm();
-        $phone = UserAttributes::find()->where(['user_id' => Yii::$app->user->identity->getId(), 'attribute_name' => 'phone'])->one();
-        $model->phone = $phone ? $phone->attribute_value : '';
-        $isu = UserAttributes::find()->where(['user_id' => Yii::$app->user->identity->getId(), 'attribute_name' => 'isu'])->one();
-        $model->isu = $isu ? $isu->attribute_value : '';
-        $vk = UserAttributes::find()->where(['user_id' => Yii::$app->user->identity->getId(), 'attribute_name' => 'vk'])->one();
-        $model->vk = $vk ? $vk->attribute_value : '';
-        $email = UserAttributes::find()->where(['user_id' => Yii::$app->user->identity->getId(), 'attribute_name' => 'email'])->one();
-        $model->email = $email ? $email->attribute_value :'';
+        $attr = UserAttributes::find()->where(['user_id' => Yii::$app->user->identity->getId()])->one();
+        $model->phone = $attr->phone ? $attr->phone : '';
+        $model->isu = $attr->isu ? $attr->isu : '';
+        $model->vk = $attr->vk ? $attr->vk : '';
+        $model->email = $attr->email ? $attr->email :'';
+
+        // $phone = UserAttributes::find()->where(['user_id' => Yii::$app->user->identity->getId()])->one();
+        // $model->phone = $phone ? $phone->attribute_value : '';
+        // $isu = UserAttributes::find()->where(['user_id' => Yii::$app->user->identity->getId(), 'attribute_name' => 'isu'])->one();
+        // $model->isu = $isu ? $isu->attribute_value : '';
+        // $vk = UserAttributes::find()->where(['user_id' => Yii::$app->user->identity->getId(), 'attribute_name' => 'vk'])->one();
+        // $model->vk = $vk ? $vk->attribute_value : '';
+        // $email = UserAttributes::find()->where(['user_id' => Yii::$app->user->identity->getId(), 'attribute_name' => 'email'])->one();
+        // $model->email = $email ? $email->attribute_value :'';
 
         if ($model->load(Yii::$app->request->post()) && $model->register()) {
             return $this->redirect([
@@ -475,8 +484,7 @@ class SiteController extends Controller
     }
     public function actionNewtask() {
         $model = new TaskForm();
-
-        if ($model->load(Yii::$app->request->post()) && $model->register()){
+        if ($model->load(Yii::$app->request->post()) && $model->register(Yii::$app->user->identity->getId())){
             return $this->goBack();
         }
         return $this->render('newtask', [
@@ -690,4 +698,20 @@ class SiteController extends Controller
             ]
         );
     }
+
+    public function actionDryUser($uid){
+        $user = User::findIdentity($uid);
+        $user->status = 2;
+        $user->save();
+        return $this->redirect(['site/members']);
+    }
+
+    public function actionWetUser($uid){
+        $user = User::findIdentity($uid);
+        $user->status = 1;
+        $user->save();
+        return $this->redirect(['site/members']);
+    }
 }
+
+?>

@@ -15,29 +15,48 @@ $this->title = 'Наши мероприятия';
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files/icons/logo.png']);
 ?>
 
-<div class="row">
-    <div class='page-header clearfix' style="margin-top: 0;">
-        <div class="col-md-6">
-            <h1><?= $this->title ?></h1>
-        </div>
+<div class='page-header'>
+    <h1><?= $this->title ?></h1>
+</div>
+
+
+<?php
+if (!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MEMBER): ?>
         <?php if(!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MEMBER): ?>
             <div class="col-md-6">
                 <h1><?= Html::a('Добавить отчет', ['site/newevent'], ['class' => 'btn btn-success pull-right']) ?></h1>
             </div>
         <?php endif; ?>
-    </div>
-</div>
-
-<?php
-if (!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MEMBER): ?>
     <div class="panel panel-default">
         <!-- Default panel contents -->
         <div class="panel-heading">Неутвержденные мероприятия</div>
 
-        <!-- Table -->
-        <table class="table">
-            <tbody>
             <?php foreach ($ucEvents as $record): ?>
+
+                <style>
+                <?= '.event-card-'.$i?>{
+                    <?php if($record->backimage !== null): ?>
+                        background-image: url(<?= '../web/files/eventcards/'.$record->backimage ?>);
+                        background-size: cover;
+                    <?php else : ?>
+                        background-image: url("../web/files/eventcards/backimage.png");
+                    <?php endif; ?>
+                }
+            </style>
+
+            <div class='event-card event-card-<?=$i?>'>
+            <a href="http://yagodka/web/index.php?r=site%2Fevent&id=<?=$i?>" class='back-filter'></a>
+                    <div class="event-card-wrapper">
+                        <span class="event-card-header"><?= $record->name ?></span>
+                        <span class="event-card-date"><?= $record->date ?></span>
+                    </div>
+                    <?php if(!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MANAGER): ?>
+                        <?= Html::a('Снять', ['site/confirmevent', 'eid' => $record->id], ['class' => 'btn btn-danger']); ?>
+                    <?php endif; ?>
+                
+            </div>
+
+  
                 <tr>
                     <?php
                         $e2u = \app\models\EventToUser::findOne(['role' => Event::ROLE_MANAGER, 'event_id' => $record->id]);
@@ -64,21 +83,37 @@ if (!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_
 
 <div class="panel panel-default">
     <!-- Default panel contents -->
-    <div class="panel-heading">Мероприятия</div>
+        <?php $i = 1; foreach ($trueEvents as $record): ?>
+            <style>
+                <?= '.event-card-'.$i?>{
+                    <?php if($record->backimage !== null): ?>
+                        background-image: url(<?= '../web/files/eventcards/'.$record->backimage ?>);
+                        background-size: cover;
+                    <?php else : ?>
+                        background-image: url("../web/files/eventcards/backimage.png");
+                    <?php endif; ?>
+                }
+            </style>
 
-    <!-- Table -->
-    <table class="table">
-        <tbody>
-        <?php foreach ($trueEvents as $record): ?>
-            <tr>
-                <td style="vertical-align: middle"><?= Html::a($record->name, ['site/event', 'id' => $record->id]) ?></td>
-                <td style="vertical-align: middle"><?= $record->date ?></td>
-                <td style="vertical-align: middle"><?= Event::$event_levels[$record->level] ?></td>
-                <?php if(!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MANAGER): ?>
-                    <td style="vertical-align: middle"><?= Html::a('Снять', ['site/confirmevent', 'eid' => $record->id], ['class' => 'btn btn-danger']); ?></td>
-                <?php endif; ?>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+            <div class='event-card event-card-<?=$i?>'>
+            <a href="http://yagodka/web/index.php?r=site%2Fevent&id=<?=$i?>" class='back-filter'></a>
+                    <div class="event-card-wrapper">
+                        <div class="event-card-wrapper-wrapper">
+                            <?php if(!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MANAGER): ?>
+                                <?= Html::a('Снять', ['site/confirmevent', 'eid' => $record->id], ['class' => 'btn btn-danger']); ?>
+                            <?php endif; ?>
+                        </div>
+                        <span class="event-card-header"><?= $record->name ?></span>
+                        <span class="event-card-date"><?= $record->date ?></span>
+                    </div>
+                    
+                
+            </div>
+            
+        <?php $i++; endforeach; ?>
 </div>
+
+<?php 
+    $this->registerCssFile('@web/css/rating.css');
+    $this->registerCssFile('@web/css/events.css');
+?>

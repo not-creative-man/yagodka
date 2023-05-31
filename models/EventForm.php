@@ -32,6 +32,7 @@ class EventForm extends Model
     public $responsible;
     public $volunteer;
     public $linksmedia;
+    public $backimage;
 
     public function rules()
     {

@@ -10,6 +10,8 @@ namespace app\models;
 
 
 use yii\db\ActiveRecord;
+use app\models\User;
+use yii\db\conditions\LikeCondition;
 
 class Rating extends ActiveRecord
 {
@@ -36,5 +38,10 @@ class Rating extends ActiveRecord
 
     public static function findByUID($uid) {
         return self::findOne(['user_id' => $uid]);
+    }
+
+    public static function findBirthdayPeople($date){
+        return User::find()->where(['like','birth', date('m-d')])->all();
+        // $query = Course::find()->where(['like', 'name', $q]);
     }
 }

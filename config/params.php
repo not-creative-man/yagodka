@@ -10,6 +10,9 @@ return [
                 ],
             ],
         ],
+        'formatter' => [
+            'dateFormat' => 'dd.MM.yyyy',      
+        ],
     ],
 ];
 

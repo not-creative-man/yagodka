@@ -34,4 +34,8 @@ class Task extends ActiveRecord
         return $this->hasMany(User::class, ['id' => 'user_id'])
             ->viaTable(TaskToUser::tableName(), ['task_id' => 'id']);
     }
+
+    public function getAuthor(){
+        return $this->author;
+    }
 }

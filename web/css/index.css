@@ -1,0 +1,381 @@
+.background-image {
+    background-color: var(--main-violet-color);
+    width: 100vw;
+    height: 845px;
+    position: absolute;
+    top: 100px;
+    left: 0;
+}
+
+.background-image-join {
+    position: absolute;
+    width: 100vw;
+    height: 461px;
+    left: 0;
+    background-color: var(--main-violet-color);
+}
+
+.container_site {
+    padding-bottom: 0 !important;
+}
+
+.label-part {
+    height: 845px;
+}
+
+.label-part-wrapper {
+    padding: 100px 0;
+    height: 100%;
+    position: relative;
+}
+
+.label-header {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 100px;
+    position: relative;
+}
+
+.on-violet {
+    color: var(--main-white-color) !important;
+    text-align: left;
+    margin: 0 56px 0 0;
+}
+
+
+/* .big-label{
+    width: 250px;
+} */
+
+.stat {
+    height: 27vh;
+    width: 27vh;
+    /* background-color: indianred; */
+    /* color: white; */
+    /* border-radius: 50%; */
+    /* font-size: 8vh; */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+    /* background-image: url('../../web/files/icons/circle-1.svg'); */
+    background-repeat: no-repeat;
+}
+
+.circle {
+    height: 250px;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.statistic {
+    font-family: 'Comic Neue';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 46px;
+}
+
+.statistic-label {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 18px;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-text {
+    height: 92px;
+    width: 113px;
+    position: relative;
+    top: -185px;
+    left: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.stat-text>span {
+    color: var(--main-white-color);
+}
+
+.description {
+    height: 712px;
+}
+
+.description-body {
+    height: 712px;
+}
+
+.description-text {
+    margin: 100px auto;
+}
+
+.main-description-header {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 59px;
+    color: var(--main-violet-color);
+    margin-bottom: 50px;
+}
+
+.description-text>ul>li {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 37px;
+    color: var(--main-violet-color);
+    margin-bottom: 25px;
+}
+
+.join-us {
+    height: 460px;
+}
+
+.join-us-wrapper {
+    padding: 100px 0;
+    height: 100%;
+    position: relative;
+}
+
+.lead-text {
+    font-family: 'Comic CAT';
+    font-style: italic;
+    font-weight: 400;
+    font-size: 96px;
+    line-height: 110px;
+    color: var(--main-white-color);
+    text-align: center;
+}
+
+.join-us-wrapper-top {
+    display: flex;
+    justify-content: center;
+}
+
+.arrow {
+    position: relative;
+    top: 70px;
+}
+
+.button-wrapper {
+    display: flex;
+    width: 782px;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
+.btn {}
+
+.btn-reg {
+    height: 100px;
+    width: 250px;
+    border-radius: 20px !important;
+    background-color: var(--main-white-color);
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700 !important;
+    font-size: 30px !important;
+    line-height: 37px !important;
+    text-align: center !important;
+    color: #3C368E !important;
+}
+
+@media (max-width: 425px) {
+    .label-part {
+        height: 950px;
+    }
+    .label-header {
+        margin-bottom: 0;
+    }
+    .background-image {
+        position: absolute;
+        height: 950px;
+    }
+    .label-part-wrapper {
+        padding: 10px 0;
+    }
+    .on-violet {
+        line-height: 60px;
+        margin: 0;
+        text-align: center;
+    }
+    .big-label {
+        display: none;
+    }
+    .circle {
+        width: 200px;
+    }
+    .col-md-4 {
+        margin-bottom: 20px;
+    }
+    .statistic {
+        font-family: 'Comic Neue';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 25px;
+        line-height: 30px;
+    }
+    .stat {
+        width: 200px;
+        height: 200px;
+        margin: auto;
+    }
+    .stat-text {
+        left: 43px;
+    }
+    .back {
+        display: none;
+    }
+    .description {
+        height: 400px;
+    }
+    .description-body {
+        height: 400px;
+    }
+    .description-text {
+        margin: 20px auto;
+    }
+    .main-description-header {
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 30px;
+        color: var(--main-violet-color);
+        margin-bottom: 50px;
+    }
+    .description-text>ul>li {
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 15px;
+        line-height: 17px;
+        color: var(--main-violet-color);
+        margin-bottom: 10px;
+    }
+
+    .join-us{
+        height: 260px;
+    }
+
+    .join-us-wrapper{
+        padding-top: 25px;
+        padding-bottom: 25px;
+        height: 100px;
+    }
+
+    .background-image-join{
+        height: 261px;
+    }
+
+    .lead-text {
+        font-size: 35px;
+    }
+
+    .arrow{
+        display: none;
+    }
+    .button-wrapper {
+        width: 280px;
+    }
+
+    .btn-reg {
+        height: 40px;
+        width: 120px;
+        font-size: 14px !important;
+        line-height: 17px !important;
+    }
+}
+
+@media (max-width: 320px) {
+    .label-part {
+        height: 1010px;
+    }
+    .label-header {
+        margin-bottom: 0;
+    }
+    .background-image {
+        position: absolute;
+        height: 1010px;
+    }
+    .label-part-wrapper {
+        padding: 10px 0;
+    }
+    .on-violet {
+        line-height: 60px;
+        margin: 0;
+        text-align: center;
+    }
+    .big-label {
+        display: none;
+    }
+    .circle {
+        width: 200px;
+    }
+    .col-md-4 {
+        margin-bottom: 20px;
+    }
+    .statistic {
+        font-family: 'Comic Neue';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 25px;
+        line-height: 30px;
+    }
+    .stat {
+        width: 200px;
+        height: 200px;
+        margin: auto;
+    }
+    .stat-text {
+        left: 43px;
+    }
+    .worm {
+        display: none;
+    }
+    .back {
+        display: none;
+    }
+    .description {
+        height: 435px;
+    }
+    .description-body {
+        height: 400px;
+    }
+    .description-text {
+        margin: 20px auto;
+    }
+    .main-description-header {
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 30px;
+        color: var(--main-violet-color);
+        margin-bottom: 10px;
+    }
+    .description-text>ul>li {
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 15px;
+        line-height: 17px;
+        color: var(--main-violet-color);
+        margin-bottom: 10px;
+    }
+    .lead-text {
+        font-size: 35px;
+    }
+}

@@ -41,6 +41,10 @@ class ContactForm extends Model
             $attr->attribute_value = $value;
             $attr->save();
         }
+        // $attr = UserAttributes::find()->where(['user_id' => Yii::$app->user->identity->getId()])->one();
+        // $attr->user_id = $user->id;
+        // $attr = $attr ? $attr : new UserAttributes();
+        // $attr->isu = 
         return true;
     }
 

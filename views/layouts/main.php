@@ -38,128 +38,61 @@ use app\models\User;
 <!--    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">-->
 
 </head>
-<body>
-    <style>
-        .logo-img{
-            height: var(--logo-size);
-            width: var(--logo-size);
-        }
-
-        .navbar-brand{
-            padding: 0;
-            height: 100px;
-            width: 100px;
-        }
-
-        .navbar-inverse{
-            height: 100px;
-            background-color: var(--header-footer-violet-clr);
-        }
-
-        .wrap > .container {
-    padding: 100px 0 20px;
-}
-        
-        .navbar >.container, .nav{
-            height: 100px;
-        }
-
-        h1, .h1{
-            /* font-family: "Montserrat" !important; */
-            font-size: 96px;
-        }
-
-        .active > a,
-        .url-active,
-        .navbar-right > li > a{
-            color: var(--main-red-clr) !important;
-            background-color: var(--header-footer-violet-clr) !important;
-        }
-
-        .navbar-inverse .navbar-nav > .open > a{
-            color: var(--main-yellow-clr) !important;
-            background-color: var(--header-footer-violet-clr) !important;
-        }
-
-        .search-template{
-            height: 40px;
-            width: 250px;
-            background-color: aliceblue;
-            border: 1px solid var(--header-footer-violet-clr);
-        }
-
-        .navbar-nav > li > .dropdown-menu{
-            width: 92px !important;
-        }
-
-        .navbar-inverse .navbar-nav > li > a, 
-        .navbar-inverse .navbar-nav > li > form,
-        .navbar-inverse .navbar-nav > .open > a,
-        .dropdown-menu > li > a,
-        .dropdown-menu > li > a:hover,
-        .footer{
-            /* padding: calc((var(--logo-size) - var(--default-text-line-size)) / 2) 15px;  */
-            color: var(--main-white-color);
-            font-family: var(--main-font);
-            font-weight: 700;
-        }
-
-        .navbar-inverse .navbar-nav > li > form{
-            color: var(--header-footer-violet-clr);
-            padding: calc((var(--logo-size) - var(--default-input-height)) / 2) 15px;
-        }
-
-        .navbar-inverse .navbar-nav > li > form > input{
-            height: var(--default-input-height);
-            width: var(--default-input-width);
-            border-radius: var(--default-input-border-radius);
-        }
-
-        .dropdown-menu,
-        .dropdown-menu > li > a:hover,
-        .footer{
-            background-color: var(--header-footer-violet-clr) !important;
-            min-width: 90px;
-        }
-
-        .dropdown-menu > li > a,
-        .dropdown-menu > li > a:hover{
-            line-height: var(--dropdown-menu-a-line-height);
-            text-align: center;
-            padding: 5px 12px; 
-        }
-
-        .footer{
-            display: flex;
+<style>
+    <?php if(!Yii::$app->user->isGuest && Yii::$app->user->identity->role_id >= User::ROLE_MANAGER){ ?>
+        @media(max-width: 768px){
+            .in > ul{
             justify-content: center;
             align-items: center;
-        }
-
-        .wrapper{
-            display: flex;
-        }
-
-        .contacts{
-            display: flex;
             flex-direction: column;
+            margin-top: 100px;
+            }
+
+            .navbar-nav > .dropdown-menu{
+                height: 100px;
+            }
+
+            .navbar-nav > .dropdown-menu > li{
+                height: auto !important;
+            }
+
+            .navbar-nav > .dropdown{
+                height: 150px !important;
+            }
+
+            .open > .dropdown-toggle{
+                height: auto !important;
+            }
+        }
+    <?php } else {?>
+
+        @media(max-width: 768px){
+            .in > ul{
+            justify-content: center;
             align-items: center;
-            margin: auto 75px;
-        }
+            flex-direction: column;
+            margin-top: 100px;
+            }
 
-        .footer-label{
-            margin-bottom: 10px
-        }
+            .dropdown-menu{
+                height: 100px;
+            }
 
-        .contacts-icons > a{
-            margin: auto 10px;
-        }
+            .dropdown-menu > li{
+                height: auto !important;
+            }
 
-        .navbar-toggle{
-            /* display: flex;
-            margin:auto 15px auto 0; */
+            .dropdown{
+                height: 150px !important;
+            }
+
+            .open > .dropdown-toggle{
+                height: auto !important;
+            }
         }
-        
-    </style>
+    <?php } ?>
+</style>
+<body>
 
 <?php
     $userinfo = !Yii::$app->user->isGuest ?''. 
@@ -191,12 +124,13 @@ use app\models\User;
         'encodeLabels' => false,
         'options' => ['class' => 'navbar-nav navbar-left'],
         'items' => [
-            '<li>'.'<form>'.'<input type="text" placeholder="поиск"></input>'.'</form>'.'</li>',
+            
+            '<li>'.'<form>'.'<input class="search-pole" type="text" placeholder="поиск"></input>'.'<i class="fas fa-search"></i>'.'</form>'.'</li>',
             ['label' => 'мероприятия '.$newEvents, 'url' => ['/site/events'], 'class' => 'url'],
             ['label' => 'рейтинг', 'url' => ['/site/rating'], 'class' => 'url'],
             !Yii::$app->user->isGuest ? (
             [
-                'label' => 'заЯБалл',
+                'label' => 'магазин',
                 'items' => [
                     ['label' => 'магазин', 'url' => ['/shop/shop']],
                     ['label' => 'заказы', 'url' => ['/shop/order-list']],
@@ -228,13 +162,14 @@ use app\models\User;
                 !Yii::$app->user->isGuest ? (
                     [
                         'label' => $userinfo,
+                        'options' => ['class' => 'active'],
                         'items' => [
                             ['label' => 'профиль', 'url' => ['/site/profile', 'uid' => Yii::$app->user->identity->id]],
                             '<li>' . Html::a('выход', ['/site/logout'], ['data' => ['method' => 'post']]) . '</li>',
                         ], 'class' => 'url url-active'
                     ]
                     ) : (
-                        ['label' => 'вход', 'url' => ['/site/login'], 'class' => 'url url-active']
+                        ['label' => 'вход', 'url' => ['/site/login'], 'class' => 'url url-active', 'options' => ['class' => 'active'],]
                     ),
                 ],
     ]);
@@ -250,7 +185,7 @@ use app\models\User;
         <?= $content ?>
     </div>
 
-    <div class="footer container-site">
+    <div class="footer container_site">
         <div class="wrapper">
             <div class="contacts">
                 <div class="footer-label">
@@ -282,9 +217,6 @@ use app\models\User;
 </html>
 <?php $this->endPage() ?>
 
-<?php 
-    $this->registerCssFile('@web/css/header.css')
-?>
-<?php 
-    $this->registerCssFile('@web/css/footer.css')
+<?php
+    $this->registerCssFile('@web/css/main.css');
 ?>
