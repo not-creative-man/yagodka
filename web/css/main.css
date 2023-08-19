@@ -150,9 +150,21 @@ a{
     font-family: 'Montserrat';
 }
 
-.dropdown-menu > li > a {
+.navbar-nav > .nav-buttons:hover{
+    color: #ffffff !important;
+    text-decoration: none !important;
+    background-color: var(--header-footer-violet-hover-clr) !important;
+}
+
+.dropdown-menu > .nav-buttons > a{
     color: var(--main-white-color);
-} 
+}
+
+.dropdown-menu > li > .nav-buttons:hover, .dropdown-menu > li > .nav-buttons:focus, .dropdown-menu > .nav-buttons > a:hover, .dropdown-menu > .nav-buttons > a:focus {
+    color: #ffffff !important;
+    text-decoration: none !important;
+    background-color: var(--header-footer-violet-hover-clr) !important;
+}
 
 
 @media (max-width: 1200px){

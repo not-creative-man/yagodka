@@ -9,29 +9,25 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = 'Вход';
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files/icons/user.png']);
-//$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="col-md-4"></div>
-<div class="site-login col-md-8">
-    <h1><?= Html::encode($this->title) ?></h1>
+<!-- <div class="col-md-4"></div> -->
+<div class="site-login">
+    <div class="page-header">
+        <h1><?= Html::encode($this->title) ?></h1>
+    </div>
+    
 
     <p>Введите логин и пароль, чтобы войти:</p>
 
-    <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
-        'layout' => 'horizontal',
-        'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-1 control-label'],
-        ],
-    ]); ?>
+    <?php $form = ActiveForm::begin(); ?>
 
         <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
 
         <?= $form->field($model, 'password')->passwordInput() ?>
 
         <?= $form->field($model, 'rememberMe')->checkbox([
-            'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
+            'template' => "<div>{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
         ]) ?>
 
         <div class="form-group">
@@ -43,3 +39,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
     <?php ActiveForm::end(); ?>
 <!--    --><?php //echo Yii::$app->getSecurity()->generatePasswordHash(123456);?>
 </div>
+
+<?php 
+    $this->registerCssFile('@web/css/login.css');
+?>

@@ -1,0 +1,221 @@
+.row-even, .row-odd{
+    outline: 2px solid var(--header-footer-violet-clr);
+    margin-bottom: 15px;
+    border-radius: 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.page-header {
+    padding-bottom: 0 !important;
+    margin: 100px 0 !important;
+}
+
+.last-special{
+    margin-bottom: 50px;
+}
+
+.row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+/* .container-fluid{
+    padding: 0 !important;
+} */
+
+.dryed > .col-xs-2 > div > img{
+    filter: grayscale();
+}
+
+.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-6{
+    display:flex;
+    align-items: center;
+    padding: 0 !important;
+}
+
+.col-xs-1 > .table-text, 
+.col-xs-1 > .table-text > i, 
+.col-xs-3 > .table-text > a{
+    color: var(--header-footer-violet-clr) !important;
+}
+
+.special{
+    outline: 2px solid var(--main-red-clr);
+    color: var(--main-red-clr) !important;
+}
+
+.special > .col-xs-1 > .table-text > i, 
+.special > .col-xs-1 > .table-text,
+.special > .col-xs-3 > .table-text > a{
+    color: var(--main-red-clr) !important;
+}
+
+.img-small-borders{
+    box-shadow: 0 0 0 2px var(--header-footer-violet-clr) !important;
+    width: 82px !important;
+    height: 82px !important;
+}
+
+.col-md-8 {
+    width: auto !important;
+}
+
+
+/* @media (max-width: 560px){
+    
+} */
+
+@media (max-width: 769px) {
+    /* .container_site{
+        width: 100vw !important;
+    }
+
+    .row{
+        margin-right: auto !important;
+        margin-left: auto !important;
+        width: 90vw !important;
+    } */
+    
+    /* .row-odd{ */
+        /* width: 650px; */
+        /* margin-left: 10px !important;
+        margin-right: 10px !important;
+
+    } */
+
+    /* .col-xs-1{
+        margin-left: 20px;
+        margin-right: 20px;
+        padding: 0 !important;
+        width: 3.5% !important;
+        justify-content: center;
+    }
+
+    .col-xs-2{
+        width: auto !important;
+        margin-right: 20px;
+    }
+
+    .col-xs-6{
+        width: auto !important;
+    }
+
+    .col-xs-3{
+        width: auto !important;
+        justify-content: flex-end;
+        margin-right: 50px;
+    } */
+}
+
+/* От 768 до 992 пикселей */
+/* ЗДЕСЬ ВСЕ НАЧИНАЕТ ШАРОЕБИТЬСЯ!!! */
+@media (min-width: 767px) {
+    .row-odd{
+        width: 650px;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    .col-xs-1{
+        margin-left: 50px;
+        margin-right: 50px;
+        padding: 0 !important;
+        width: 3.5% !important;
+        justify-content: center;
+    }
+
+    .col-xs-2{
+        width: auto !important;
+        margin-right: 50px;
+    }
+
+    .col-xs-6{
+
+    }
+
+    .col-xs-3{
+        width: auto !important;
+        justify-content: flex-end;
+        margin-right: 50px;
+    }
+}
+
+
+/* От 992 до 1200 пикселей */
+@media (min-width: 992px) {
+    .row-odd{
+        width: 700px;
+    }
+
+    .col-xs-1{
+        margin-left: 50px;
+        margin-right: 50px;
+        padding: 0 !important;
+        width: 3.5% !important;
+        justify-content: center;
+    }
+
+    .col-xs-2{
+        width: auto !important;
+        margin-right: 50px;
+    }
+
+    .col-xs-6{
+
+    }
+
+    .col-xs-3{
+        width: auto !important;
+        justify-content: flex-end;
+        margin-right: 50px;
+    }
+}
+
+/* Самый большой экран от 1200 и больше */
+@media(min-width: 1200px) { 
+    .row-odd{
+        width: 850px;
+    }
+
+    .col-xs-1{
+        margin-left: 50px;
+        margin-right: 50px;
+        padding: 0 !important;
+        width: 3.5% !important;
+        justify-content: center;
+    }
+
+    .col-xs-2{
+        width: auto !important;
+        margin-right: 50px;
+    }
+
+    .col-xs-6{
+        width: 533px !important;
+        height: auto !important;
+    }
+
+    .col-xs-3{
+        width: auto !important;
+        justify-content: flex-end;
+        margin-right: 50px;
+    }
+}
+
+
+
+
+
+
+
+
+/* Шаблон */
+
+/* Самый большой экран от 1200 и больше */
+/* @media(min-width: 1200px) {} */
+/* От 992 до 1200 пикселей */
+/* @media (min-width: 992px) {} */
+/* От 768 до 992 пикселей */
+/* @media (min-width: 768px) {} */

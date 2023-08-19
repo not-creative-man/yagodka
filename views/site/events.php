@@ -7,6 +7,7 @@
  */
 
 
+use yii\bootstrap\Nav;
 use yii\helpers\Html;
 use app\models\User;
 use app\models\Event;
@@ -23,84 +24,101 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
 <?php
 if (!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MEMBER): ?>
         <?php if(!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MEMBER): ?>
-            <div class="col-md-6">
-                <h1><?= Html::a('Добавить отчет', ['site/newevent'], ['class' => 'btn btn-success pull-right']) ?></h1>
+            <div class="button-wrapper-events">
+                <h1><?= Html::a('+ добавить', ['site/newevent'], ['class' => 'btn btn-danger pull-right']) ?></h1>
             </div>
         <?php endif; ?>
-    <div class="panel panel-default">
+        <?php if(count($ucEvents) !== 0) : ?>
+            <div class="panel-heading">Неутвержденные мероприятия</div>
+            <div class="panel panel-default panel-unconfirmed panel-events">
         <!-- Default panel contents -->
-        <div class="panel-heading">Неутвержденные мероприятия</div>
+        
+        
 
             <?php foreach ($ucEvents as $record): ?>
 
                 <style>
-                <?= '.event-card-'.$i?>{
+                <?= '.event-card-'.$record->id?>{
                     <?php if($record->backimage !== null): ?>
-                        background-image: url(<?= '../web/files/eventcards/'.$record->backimage ?>);
-                        background-size: cover;
+                        background: linear-gradient(0deg, rgba(28, 24, 78, 0.6), rgba(28, 24, 78, 0.6)),
+                                        url(<?= '../web/files/eventcards/'.$record->backimage ?>) top left/cover;
                     <?php else : ?>
-                        background-image: url("../web/files/eventcards/backimage.png");
+                        background: linear-gradient(0deg, rgba(28, 24, 78, 0.6), rgba(28, 24, 78, 0.6)),
+                                        url("../web/files/eventcards/backimage.png") top left/cover;
                     <?php endif; ?>
                 }
             </style>
-
-            <div class='event-card event-card-<?=$i?>'>
-            <a href="http://yagodka/web/index.php?r=site%2Fevent&id=<?=$i?>" class='back-filter'></a>
-                    <div class="event-card-wrapper">
-                        <span class="event-card-header"><?= $record->name ?></span>
-                        <span class="event-card-date"><?= $record->date ?></span>
-                    </div>
-                    <?php if(!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MANAGER): ?>
-                        <?= Html::a('Снять', ['site/confirmevent', 'eid' => $record->id], ['class' => 'btn btn-danger']); ?>
-                    <?php endif; ?>
+            <?php
+                $e2u = \app\models\EventToUser::findOne(['role' => Event::ROLE_MANAGER, 'event_id' => $record->id]);
+                $manager_id = $e2u->user_id;
+            ?>
+            <div class='event-card event-card-<?=$record->id?>'>
+                <a href="http://yagodka/web/index.php?r=site%2Fevent&id=<?=$record->id?>" class='back-filter'></a>
+                <?php if(Yii::$app->user->identity->role_id >= User::ROLE_MANAGER || Yii::$app->user->identity->id == $manager_id): ?>
+                    <?php echo Nav::widget([
+                            'items' => [[
+                                'label' => '', 
+                                'tag' => 'i',
+                                'class' => '',
+                                'items' => [
+                                    '<li>'.Html::a('Утвердить', ['site/confirmevent', 'eid' => $record->id], ['class' => 'btn btn-success']).'</li>',
+                                    '<li>'.Html::a('Снять', ['site/confirmevent', 'eid' => $record->id], ['class' => 'btn btn-danger']).'</li>',
+                                    '<li>'.Html::a('Удалить', ['site/delete-event', 'eid' => $record->id], ['class' => 'btn btn-danger']).'</li>',
+                                ]],
+                            ],
+                        ]); 
+                    ?>
+                <?php endif; ?>
+                <div class="event-card-wrapper">
+                    <span class="event-card-header"><?= $record->name ?></span>
+                    <span class="event-card-date"><?= $record->date ?></span>
+                </div>
                 
             </div>
-
-  
-                <tr>
-                    <?php
-                        $e2u = \app\models\EventToUser::findOne(['role' => Event::ROLE_MANAGER, 'event_id' => $record->id]);
-                        $manager_id = $e2u->user_id;
-                    ?>
-                    <?php if(Yii::$app->user->identity->role_id >= User::ROLE_MANAGER || Yii::$app->user->identity->id == $manager_id): ?>
-                        <td style="vertical-align: middle"><?= Html::a($record->name, ['site/editevent', 'eid' => $record->id]) ?></td>
-                    <?php else: ?>
-                        <td style="vertical-align: middle"><?= $record->name ?></td>
-                    <?php endif;?>
-                    <td style="vertical-align: middle"><?= $record->date ?></td>
-                    <td style="vertical-align: middle"><?= Event::$event_levels[$record->level] ?></td>
-                    <?php if(Yii::$app->user->identity->role_id >= User::ROLE_MANAGER): ?>
-                        <td style="vertical-align: middle"><?= Html::a('Утвердить', ['site/confirmevent', 'eid' => $record->id], ['class' => 'btn btn-success']); ?>
-                            <?= Html::a('Удалить', ['site/delete-event', 'eid' => $record->id], ['class' => 'btn btn-danger']); ?>
-                        </td>
-                    <?php endif; ?>
-                </tr>
             <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+        </div>
+            <?php endif; ?>
+    
 <?php endif; ?>
 
-<div class="panel panel-default">
+<div class="panel panel-default panel-events">
     <!-- Default panel contents -->
-        <?php $i = 1; foreach ($trueEvents as $record): ?>
+        <?php foreach ($trueEvents as $record): ?>
             <style>
-                <?= '.event-card-'.$i?>{
+                <?= '.event-card-'.$record->id?>{
                     <?php if($record->backimage !== null): ?>
-                        background-image: url(<?= '../web/files/eventcards/'.$record->backimage ?>);
-                        background-size: cover;
+                        background: linear-gradient(0deg, rgba(28, 24, 78, 0.6), rgba(28, 24, 78, 0.6)),
+                                        url(<?= '../web/files/eventcards/'.$record->backimage ?>) top left/cover;
                     <?php else : ?>
-                        background-image: url("../web/files/eventcards/backimage.png");
+                        background: linear-gradient(0deg, rgba(28, 24, 78, 0.6), rgba(28, 24, 78, 0.6)),
+                                        url("../web/files/eventcards/backimage.png") top left/cover;                    
                     <?php endif; ?>
                 }
             </style>
 
-            <div class='event-card event-card-<?=$i?>'>
-            <a href="http://yagodka/web/index.php?r=site%2Fevent&id=<?=$i?>" class='back-filter'></a>
+            <div class='event-card event-card-<?=$record->id?>'>
+            <a href="http://yagodka/web/index.php?r=site%2Fevent&id=<?=$record->id?>" class='back-filter'></a>
+            <?php if(!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MANAGER): ?>
+                <style>
+                    .event-card-wrapper{
+                        margin-top: -24px !important;
+                    }
+                </style>
+            <?php echo Nav::widget([
+                    'items' => [[
+                        'label' => '', 
+                        'tag' => 'i',
+                        'class' => '',
+                        'items' => [
+                            '<li>'.Html::a('Снять', ['site/confirmevent', 'eid' => $record->id], ['class' => 'btn btn-danger dlt-event']).'</li>',
+                        ]],
+                    ],
+                ]); 
+            ?><?php endif; ?>
                     <div class="event-card-wrapper">
                         <div class="event-card-wrapper-wrapper">
                             <?php if(!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MANAGER): ?>
-                                <?= Html::a('Снять', ['site/confirmevent', 'eid' => $record->id], ['class' => 'btn btn-danger']); ?>
+                                
                             <?php endif; ?>
                         </div>
                         <span class="event-card-header"><?= $record->name ?></span>
@@ -110,7 +128,7 @@ if (!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_
                 
             </div>
             
-        <?php $i++; endforeach; ?>
+        <?php endforeach; ?>
 </div>
 
 <?php 

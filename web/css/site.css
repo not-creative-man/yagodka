@@ -1,9 +1,12 @@
 :root {
     --header-footer-violet-clr: #3C368E;
+    --header-footer-violet-hover-clr: #252164;
     --main-yellow-clr: #F4CB4B;
+    --main-hover-yellow-clr: #cc9900;
     --main-red-clr: #FF545C;
     --main-white-color: #FFFFFF;
     --main-violet-color: #524AA0;
+    --main-hover-button-color: #ff2b35;
     --logo-size: 100px;
     --default-text-line-size: 20px;
     --default-input-height: 40px;
@@ -13,6 +16,13 @@
     --main-font-bold: "Montserrat-Bold";
     --header-font: "Comic CAT";
     --dropdown-menu-a-line-height: 18px;
+}
+
+@font-face{
+    font-family: "Comic CAT";
+    font-style: normal;
+    font-weight: 400;
+    src: url('../../web/fonts/comicCat.otf');
 }
 
 @font-face{
@@ -27,6 +37,13 @@
     font-style: normal;
     font-weight: 700;
     src: url('../../web/fonts/montserrat-bold.ttf');
+}
+
+@font-face{
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 700;
+    src: url('../../web/fonts/montserrat.ttf');
 }
 
 html,
@@ -88,6 +105,11 @@ a, p, .table-text{
 .jumbotron .btn {
     font-size: 22px;
     padding: 14px 24px;
+}
+
+.btn{
+    font-family: "Montserrat-Bold";
+    border-radius: 10px;
 }
 
 .not-set {
@@ -246,7 +268,7 @@ a.desc:after {
 }
 
 a:hover {
-    color: #9c5685;
+    color: var(--header-footer-violet-clr);
 }
 
 .new {
@@ -284,6 +306,7 @@ a:hover {
     h1, .h1{
         font-size: 48px !important;
         margin: 30px auto !important;
+        line-height: 54px !important;
     }
 
     .page-header{
@@ -320,3 +343,16 @@ a:hover {
 /* .wrap{
     width: 768px;
 } */
+
+.btn-danger{
+    background-color: var(--main-red-clr);
+    /* color: var(--main-white-color); */
+}
+
+.btn-warning{
+    background-color: var(--main-yellow-clr) !important;
+}
+
+.btn-warning:hover{
+    background-color: var(--main-hover-yellow-clr) !important;
+}

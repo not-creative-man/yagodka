@@ -11,6 +11,7 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 use app\models\User;
+use app\models\UserAttributes;
 use yii\db\conditions\LikeCondition;
 
 class Rating extends ActiveRecord
@@ -37,7 +38,8 @@ class Rating extends ActiveRecord
     }
 
     public static function findByUID($uid) {
-        return self::findOne(['user_id' => $uid]);
+        var_dump(UserAttributes::findAll(0));
+        return self::find()->where(['user_id' => $uid])->orderBy(['id'=>SORT_DESC])->one();
     }
 
     public static function findBirthdayPeople($date){

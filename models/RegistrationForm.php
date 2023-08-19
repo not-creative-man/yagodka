@@ -11,6 +11,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use app\models\User;
+use app\models\UserAttributes;
 
 class RegistrationForm extends Model
 {
@@ -25,13 +26,17 @@ class RegistrationForm extends Model
     public $status;
     public $password_repeat;
     public $berry;
+    public $birth;
+    public $phone;
+    public $isu;
+    public $vk;
 
     public function rules()
     {
         return [
-            [['username', 'password', 'name', 'surname', 'berry'], 'required', 'message' => "Это поле не может быть пустым"],
+            [['username', 'password', 'name', 'surname', 'berry', 'phone', 'vk', 'birth'], 'required', 'message' => "Это поле не может быть пустым"],
             ['username', 'unique', 'targetClass' => User::class, 'message' => 'Этот логин уже занят, используйте другой'],
-            ['berry', 'unique', 'targetClass' => User::class, 'message' => 'Эта ягода уже занята, используйте другую'],
+            // ['berry', 'unique', 'targetClass' => User::class, 'message' => 'Эта ягода уже занята, используйте другую'],
             //['email','unique','targetClass'=>User::class,'message' => 'Пользователь с таким адресом уже зарегистрирован'],
             ['username', 'string', 'max' => 64],
             ['berry', 'string', 'max' => 64],
@@ -52,10 +57,24 @@ class RegistrationForm extends Model
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios['update'] = ['name', 'surname', 'role_id'];
-        $scenarios['register'] = ['username', 'password', 'password_repeat', 'name', 'surname', 'berry', 'role_id', 'status', 'patronymic'];
+        $scenarios['update'] = ['name', 'surname', 'berry', 'role_id', 'status', 'patronymic', 'phone', 'isu', 'vk', 'birth'];
+        $scenarios['register'] = ['username', 'password', 'password_repeat', 'name', 'surname', 'berry', 'role_id', 'status', 'patronymic', 'phone', 'isu', 'vk', 'birth'];
         return $scenarios;
     }
+
+    // public function register()
+    // {
+    //     if (!$this->validate())
+    //         return false;
+
+    //     $user = new User;
+    //     $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+    //     foreach ($this->attributes as $key => $value) {
+    //         if ($key == 'password_repeat') continue;
+    //         $user->$key = $value;
+    //     }
+    //     return $user->save();
+    // }
 
     public function register()
     {
@@ -63,12 +82,45 @@ class RegistrationForm extends Model
             return false;
 
         $user = new User;
+        $userAttrs = [];
+        $attr = new UserAttributes;
         $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
         foreach ($this->attributes as $key => $value) {
             if ($key == 'password_repeat') continue;
-            $user->$key = $value;
+            else if ($key == 'phone' || 
+                     $key == 'isu' ||
+                     $key == 'email' ||
+                     $key == 'vk'){
+                        $attr->$key = $value;
+                        //array_push($userAttrs, [ $key => $value ]);
+                     }
+            else $user->$key = $value;
         }
-        return $user->save();
+        // return $user->save();
+        var_dump($userAttrs);
+        if($user->save() !== false){
+            // file_put_contents('@web/log.txt', $user);
+            $user = User::find()->where(['username' => $user->username])->one();
+            var_dump($user);
+            // $attr = new UserAttributes();
+            $attr->user_id = $user->id;
+            $attr->attribute_name = 'AN';
+            $attr->attribute_value = 'null';
+            // foreach ($userAttrs as $key => $value) {
+            //     // $attr = UserAttributes::find()->where(['user_id' => Yii::$app->user->identity->getId(), 'attribute_name' => $key])->one();
+            //     var_dump($userAttrs);
+            //     switch($key){
+            //         case 'phone': $attr->phone = $value; break;
+            //         case 'isu' : $attr->isu = $value; break;
+            //         case 'email' : $attr->email = $value; break;
+            //         case 'vk' : $attr->vk = $value; break;
+            //     }
+            //     //$attr->save();
+            // }
+            $attr->save();
+        }
+        return true;
+
     }
 
     public function update($uid) {
@@ -76,12 +128,61 @@ class RegistrationForm extends Model
             return false;
 
         $user = User::findOne(['id' => $uid]);
+
+        // $attr = UserAttributes::findOne(['user_id' => $uid]);
+        // // $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+        // foreach ($this->attributes as $key => $value) {
+        //     if ($key == 'password_repeat') continue;
+        //     else if ($key == 'phone' || 
+        //              $key == 'isu' ||
+        //              $key == 'email' ||
+        //              $key == 'vk'){
+        //                 $attr->$key = $value;
+        //                 //array_push($userAttrs, [ $key => $value ]);
+        //              }
+        //     else $user->$key = $value;
+        // }
+        // // return $user->save();
+        // if($user->save() !== false){
+        //     // file_put_contents('@web/log.txt', $user);
+        //     // $user = User::find()->where(['username' => $user->username])->one();
+        //     // var_dump($user);
+        //     // $attr = new UserAttributes();
+        //     $attr->user_id = $uid;
+        //     $attr->attribute_name = null;
+        //     // $attr->attribute_value = 'sososo';
+        //     // foreach ($userAttrs as $key => $value) {
+        //     //     // $attr = UserAttributes::find()->where(['user_id' => Yii::$app->user->identity->getId(), 'attribute_name' => $key])->one();
+        //     //     var_dump($userAttrs);
+        //     //     switch($key){
+        //     //         case 'phone': $attr->phone = $value; break;
+        //     //         case 'isu' : $attr->isu = $value; break;
+        //     //         case 'email' : $attr->email = $value; break;
+        //     //         case 'vk' : $attr->vk = $value; break;
+        //     //     }
+        //     //     //$attr->save();
+        //     // }
+        //     return $attr->save();
+        // }
+
+
+        // return true;
         $user->name = $this->name;
         $user->surname = $this->surname;
-        $user->patronymic = $this->patronymic;
         $user->berry = $this->berry;
         $user->role_id = $this->role_id;
-        return $user->save();
+        $user->birth = $this->birth;
+        $user->patronymic = $this->patronymic;
+        $user->save();
+        // $userAttr = UserAttributes::find()->where(['user_id' => (integer)$uid])->one();
+        $userAttr = UserAttributes::findOne(['user_id' => $uid]);
+        // echo $this->vk;
+        $userAttr->vk = $this->vk;
+        $userAttr->phone = $this->phone;
+        $userAttr->isu = $this->isu;
+        // $userAttr->attribute_name = null;
+        return $userAttr->save();
+        
 
     }
 
@@ -96,6 +197,10 @@ class RegistrationForm extends Model
             'password_repeat' => 'Повторите пароль',
             'berry' => 'Ягодка',
             'role_id' => 'Должность',
+            'birth' => 'Дата рождения',
+            'phone' => 'Телефон',
+            'isu' => 'ИСУ',
+            'vk' => 'Ссылка на ВКонтакте',
         ];
     }
 
@@ -103,6 +208,7 @@ class RegistrationForm extends Model
     {
         return [
             'patronymic' => 'Можно пропустить, если нет',
+            'birth' => 'Дата в формате дд.ММ.гггг',
         ];
     }
 }

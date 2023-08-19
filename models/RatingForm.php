@@ -17,6 +17,7 @@ class RatingForm extends Model
 
     public $count;
     public $comment;
+    public $author;
 
     public function rules()
     {

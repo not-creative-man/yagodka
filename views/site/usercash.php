@@ -11,25 +11,31 @@ use yii\helpers\Html;
 $this->title = 'Изменить ягодки';
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files/icons/settings.png']);
 ?>
-<div class="panel panel-default">
-    <!-- Default panel contents -->
-    <div class="panel-heading">Ягодки участника <b><?= Html::a($user->berry, ['site/profile', 'uid' => $user->id]); ?></b></div>
 
-    <!-- Table -->
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Баллы</th>
-            <th>Комментарий</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($cash as $record): ?>
-            <tr>
-                <td><?= $record->count ?></td>
-                <td><?= $record->comment ?></td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+<div class='page-header userdata'>
+    <h1>Ягодки участника <?= Html::a("<h1>".$user->berry."</h1>", ['site/profile', 'uid' => $user->id]); ?></h1>
 </div>
+
+<div class="panel panel-default panel-userdata">
+    <!-- Default panel contents -->
+    <!-- Table -->
+    <div class="panel-wrapper-table">
+    <div class="header-line line">
+        <div class="tab-1"><span>Баллы      </span></div>
+        <div class="tab-2"><span>Комментарий</span></div>
+        <div class="tab-3"><span>Автор      </span></div>
+    </div>
+    <?php foreach ($cash as $record): ?>
+            <div class="line">
+                <div class="tab-1"><span><?= $record->count ?>  </span></div>
+                <div class="tab-2"><span><?= $record->comment ?></span></div>
+                <div class="tab-3"><span><?= $record->author ?> </span></div>
+            </div>
+          <?php endforeach; ?>
+  </div>
+</div>
+
+
+<?php 
+    $this->registerCssFile('@web/css/userdata.css');
+?>

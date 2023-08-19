@@ -1,0 +1,33 @@
+.panel-new{
+    border: 0 !important;
+}
+
+.panel-wrapper-new{
+    width: 850px;
+    margin: 0 auto;
+}
+
+.panel-wrapper-new > form { 
+    width: 100%;
+}
+
+.panel-wrapper-new > form > div{
+    width: 100%;
+}
+
+.panel-wrapper-new > form > div > label{
+    font-family: 'Montserrat-Bold';
+font-style: normal;
+font-weight: 600;
+font-size: 15px;
+line-height: 18px;
+
+color: #3C368E;
+}
+
+.btn-red{
+    background-color: var(--main-red-clr);
+    color: white;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}

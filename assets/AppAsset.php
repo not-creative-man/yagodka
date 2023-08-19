@@ -25,7 +25,16 @@ class AppAsset extends AssetBundle
         'css/rating.css',
         'css/main.css',
         'css/index.css',
-        'css/events.css'
+        'css/events.css',
+        'css/shop.css',
+        'css/tasks.css',
+        'css/event.css',
+        'css/userdata.css',
+        'css/login.css',
+        'css/order-list.css',
+        'css/product-list.css',
+        'css/order-list.css',
+        'css/new.css'
     ];
     public $js = [
     ];

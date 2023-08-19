@@ -37,17 +37,25 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
                                     </div>
                                     <div class="col-xs-2">
                                         <div class="img-small-borders">
-                                            <img src="<?= \app\models\User::userAvatar(\app\models\User::findIdentity($user->id)) ?>" class="img-small">
+                                            <img src="<?= \app\models\User::userAvatar(\app\models\User::findIdentity($user->id)) ?>" class="img-small <?= ($user->status == 2)?('dryed'):('') ?>">
                                         </div>
                                     </div>
                                     <div class="col-xs-6">
                                         <div class="table-text">
-                                            <?= Html::a(($user->status == 2)?("Сухофрукт $user->berry"):("$user->berry"), ['/site/profile', 'uid' => $user->id], ['class' => 'berry-link'] ) ?>
+                                            <?php if(Yii::$app->user->isGuest) :?>
+                                                <span class="berry-link"><?= ($user->status == 2)?("Сухофрукт $user->berry"):("$user->berry") ?></span>
+                                            <?php else: ?>
+                                                <?= Html::a(($user->status == 2)?("Сухофрукт $user->berry"):("$user->berry"), ['/site/profile', 'uid' => $user->id], ['class' => 'berry-link'] ) ?>
+                                            <?php endif ?>
                                         </div>
                                     </div>
                                     <div class="col-xs-3">
                                         <div class="table-text">
-                                            <?= $user->rating()?Html::a($user->rating(), ['site/userrating', 'uid' => $user->id]):0 ?>
+                                            <?php if(Yii::$app->user->isGuest) :?>
+                                                <span class="berry-link"><?= $user->rating()?$user->rating():0 ?></span>
+                                            <?php else: ?>
+                                                <?= $user->rating()?Html::a($user->rating(), ['site/userrating', 'uid' => $user->id]):0 ?>
+                                            <?php endif ?>
                                         </div>
                                     </div>
                                 </div>

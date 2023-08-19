@@ -1,4 +1,5 @@
-.panel{
+.panel-events {
+    border: none !important;
     display: grid;
     grid-template-columns: 350px 350px 350px;
     grid-auto-rows: 182px;
@@ -7,23 +8,46 @@
     grid-row-gap: 50px;
 }
 
-.event-card{
+.panel-unconfirmed {
+    border-bottom: 2px solid var(--main-red-clr) !important;
+    border-radius: 0 !important;
+    padding: 20px;
+}
+
+.event-card {
     border-radius: 20px;
     outline: 1px solid black;
     position: relative;
 }
 
+.button-wrapper-events {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 50px;
+}
 
+.panel-heading {
+    font-family: 'Montserrat-Bold';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 37px;
+    /* identical to box height */
+    text-align: center;
+    color: var(--header-footer-violet-clr);
+}
 
-.back-filter{
+.back-filter {
     width: 100%;
     height: 100%;
     position: absolute;
     border-radius: 20px;
-    z-index: 1000;
+    z-index: 700;
 }
 
-.event-card-wrapper{
+.event-card-wrapper {
     position: relative;
     color: var(--main-white-color);
     display: flex;
@@ -35,7 +59,7 @@
     z-index: 200;
 }
 
-.event-card-wrapper > span{
+.event-card-wrapper>span {
     color: var(--main-white-color);
     font-family: 'Montserrat';
     font-style: normal;
@@ -45,7 +69,7 @@
     margin-left: 20px;
 }
 
-.event-card-header{
+.event-card-header {
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 700 !important;
@@ -53,10 +77,69 @@
     line-height: 30px !important;
 }
 
-.event-card-date{
+.event-card-date {
     margin-bottom: 20px;
 }
 
-.event-card-wrapper-wrapper{
+.event-card-wrapper-wrapper {
     display: flex;
+}
+
+.event-card>.nav {
+    position: relative;
+    z-index: 1000;
+}
+
+.event-card>.nav>.open>a {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.event-card>.nav>.open>.dropdown-menu {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.event-card>.nav>.dropdown>.dropdown-toggle:hover,
+.event-card>.nav>.dropdown>.dropdown-toggle:focus {
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.dropdown-menu > li > .dlt-event:hover, .dropdown-menu > li > .dlt-event:focus{
+    color: #fff !important;
+    background-color: #c9302c !important;
+    border-color: #ac2925 !important;
+}
+
+@media (max-width: 1200px) {
+    .panel-events {
+        grid-column-gap: 25px;
+        grid-row-gap: 20px;
+        grid-template-columns: 250px 250px 250px;
+        grid-auto-rows: 152px;
+    }
+    .event-card-wrapper>.event-card-header {
+        font-size: 15px !important;
+        line-height: 17px !important;
+    }
+    .event-card-wrapper>.event-card-date {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 500px) {
+    .panel-events {
+        grid-template-columns: 350px;
+    }
+    .panel-unconfirmed {
+        border-color: rgba(0, 0, 0, 0) !important;
+    }
+    .button-wrapper-events {
+        margin-bottom: 0;
+    }
+}
+
+@media(max-width: 350px) {
+    .panel-events {
+        grid-template-columns: 95%;
+    }
 }

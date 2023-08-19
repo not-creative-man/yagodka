@@ -125,32 +125,33 @@ use app\models\User;
         'options' => ['class' => 'navbar-nav navbar-left'],
         'items' => [
             
-            '<li>'.'<form>'.'<input class="search-pole" type="text" placeholder="поиск"></input>'.'<i class="fas fa-search"></i>'.'</form>'.'</li>',
-            ['label' => 'мероприятия '.$newEvents, 'url' => ['/site/events'], 'class' => 'url'],
-            ['label' => 'рейтинг', 'url' => ['/site/rating'], 'class' => 'url'],
+            // '<li>'.'<form>'.'<input class="search-pole" type="text" placeholder="поиск"></input>'.'<i class="fas fa-search"></i>'.'</form>'.'</li>',
+            ['label' => 'мероприятия '.$newEvents, 'url' => ['/site/events'], 'options' => ['class' => 'url nav-buttons']],
+            ['label' => 'рейтинг', 'url' => ['/site/rating'], 'options' => ['class' => 'url nav-buttons']],
             !Yii::$app->user->isGuest ? (
             [
-                'label' => 'магазин',
+                'label' => 'заЯбалл',
                 'items' => [
-                    ['label' => 'магазин', 'url' => ['/shop/shop']],
-                    ['label' => 'заказы', 'url' => ['/shop/order-list']],
+                    ['label' => 'заЯбалл', 'url' => ['/shop/shop'], 'options' => ['class' => 'url nav-buttons']],
                     !Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MANAGER ?
-                        ['label' => 'товары', 'url' => ['/shop/product-list']]: "",
+                        ['label' => 'заказы', 'url' => ['/shop/order-list'], 'options' => ['class' => 'url nav-buttons']]: "",
+                    !Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MANAGER ?
+                        ['label' => 'товары', 'url' => ['/shop/product-list'], 'options' => ['class' => 'url nav-buttons']]: "",
                 ],
-                'class' => 'url'
+                'options' => ['class' => 'url nav-buttons']
             ]
             ) : "",
             !Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MANAGER ?
-                ['label' => "участники". ($newUsers > 0 ?" <sup><span class='new'> {$newUsers} </span></sup>":""), 'url' => ['/site/members'], 'class' => 'url']:"",
-            !Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MANAGER ?
+                ['label' => "участники". ($newUsers > 0 ?" <sup><span class='new'> {$newUsers} </span></sup>":""), 'url' => ['/site/members'], 'options' => ['class' => 'url nav-buttons']]:"",
+            !Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_DEPARTMENT_MANAGER ?
                 ['label' => "баллы",
                     'items' => [
-                        ['label' => 'выезд', 'url' => ['/site/journey']],
-                        ['label' => 'собрание', 'url' => ['/site/profile', 'uid' => Yii::$app->user->identity->id]],
-                        ['label' => 'SMM', 'url' => ['/site/smm']],
-                ], 'class' => 'url']:"",
+                        ['label' => 'выезд', 'url' => ['/site/journey'], 'options' => ['class' => 'url nav-buttons']],
+                        ['label' => 'собрание', 'url' => ['/site/meeting'], 'options' => ['class' => 'url nav-buttons']],
+                        // ['label' => 'SMM', 'url' => ['/site/smm'], 'options' => ['class' => 'url nav-buttons']],
+                ], 'options' => ['class' => 'url nav-buttons']]:"",
             !Yii::$app->user->isGuest ?
-                 ['label' => 'задачи '.$newTasks, 'url' => ['/site/tasks'], 'class' => 'url']:"",
+                 ['label' => 'задачи '.$newTasks, 'url' => ['/site/tasks'], 'options' => ['class' => 'url nav-buttons']]:"",
         ],
     ]);
 
@@ -158,20 +159,39 @@ use app\models\User;
         [
             'encodeLabels' => false,
             'options' => ['class' => 'navbar-nav navbar-right'],
-            'items' => [
+            'items' => 
                 !Yii::$app->user->isGuest ? (
-                    [
+                    [[
                         'label' => $userinfo,
                         'options' => ['class' => 'active'],
                         'items' => [
-                            ['label' => 'профиль', 'url' => ['/site/profile', 'uid' => Yii::$app->user->identity->id]],
-                            '<li>' . Html::a('выход', ['/site/logout'], ['data' => ['method' => 'post']]) . '</li>',
-                        ], 'class' => 'url url-active'
-                    ]
+                            ['label' => 'профиль', 'url' => ['/site/profile', 'uid' => Yii::$app->user->identity->id], 'options' => ['class' => 'url nav-buttons']],
+                            ['label' => 'выход', 'url' => ['/site/logout'], 'options' => ['class' => 'url nav-buttons']]
+                        ], 'class' => 'url url-active nav-buttons'
+                    ]]
                     ) : (
-                        ['label' => 'вход', 'url' => ['/site/login'], 'class' => 'url url-active', 'options' => ['class' => 'active'],]
-                    ),
-                ],
+                        [
+                            [
+                                'label' => 'вход', 
+                                'url' => ['/site/login'], 
+                                'class' => 'url url-active', 
+                                'options' => ['class' => 'active nav-buttons']
+                            ],
+                            // [
+                            //     'label' => 'обновить мету', 
+                            //     'url' => ['/site/updateUserAttr'], 
+                            //     'class' => 'url url-active', 
+                            //     'options' => ['class' => 'active nav-buttons'],
+                            // ]
+                            // [
+                            //     'label' => 'регистрация', 
+                            //     'url' => ['/site/register'], 
+                            //     'class' => 'url url-active', 
+                            //     'options' => ['class' => 'active nav-buttons'],
+                            // ]
+                        ]
+                    )
+                ,
     ]);
     NavBar::end();
     ?>

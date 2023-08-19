@@ -24,7 +24,9 @@ use yii\web\IdentityInterface;
  * @property string $surname [varchar(32)]
  * @property string $patronymic [varchar(32)]
  * @property bool $status [tinyint(1)]
- * @property int $role [int(1) unsigned]
+ * @property int $role_id [int(1) unsigned]
+ * @property string $birth [date]
+ * @property string $berry [varchar(32)]
  * @property string $department [varchar(64)]
  * @property string $access_token [varchar(128)]
  * @property string $email [varchar(64)]
@@ -39,8 +41,10 @@ class User extends ActiveRecord implements IdentityInterface
 
     const ROLE_MEMBER = 1;
     const ROLE_MANAGER = 3;
+    const ROLE_SECRETORY = 0;
+    const ROLE_DEPARTMENT_MANAGER = 2;
+
     const ROLE_ADMIN = 4;
-    const ROLE_SECRETORY = 2;
     const ROLE_MENTOR = 5;
 
     public static function tableName()
@@ -108,6 +112,12 @@ class User extends ActiveRecord implements IdentityInterface
             ->viaTable(TaskToUser::tableName(), ['user_id' => 'id']);
     }
 
+    // public function getSkills()
+    // {
+    //     return $this->hasMany(Skill::class, ['id' => 'skill_id'])
+    //         ->viaTable(SkillToUser::tableName(), ['user_id' => 'id']);
+    // }
+
     public function userInitials(){
         return $this->surname . ' ' .
             mb_substr($this->name, 0, 1) . '. ' .
@@ -136,13 +146,15 @@ class User extends ActiveRecord implements IdentityInterface
     public function getRoleName(){
         switch ($this->role_id) {
             case User::ROLE_ADMIN :
-                return 'admin';
+                return 'СВЯТОЙ ЧЕЛОВЕК';
             case User::ROLE_SECRETORY :
                 return 'Секретарь';
             case User::ROLE_MANAGER:
                 return 'Менеджер клуба';
             case User::ROLE_MENTOR:
                 return 'Ментор клуба';
+            case User::ROLE_DEPARTMENT_MANAGER:
+                return 'Менеджер направления';
             default :
                 return 'Член клуба';
         }

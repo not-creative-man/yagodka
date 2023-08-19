@@ -14,7 +14,9 @@ COPY . /var/www/yagodka
 
 WORKDIR /var/www/yagodka
 
-RUN /var/www/yagodka/bin/install_composer.sh
+RUN ls /var/www/yagodka/bin
+RUN bash /var/www/yagodka/bin/install_composer.sh
 RUN composer update && composer install
+
 
 RUN chmod -R 777 /var/www/yagodka/vendor /var/www/yagodka/assets /var/www/yagodka/runtime /var/www/yagodka/web/assets /var/www/yagodka/web/files

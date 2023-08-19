@@ -13,9 +13,9 @@ use app\models\User;
 $this->title = "Регистрация";
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files/icons/user.png']);
 ?>
-<div class="col-md-6 col-md-offset-3">
+<div class="site-login">
     <div class="page-header">
-        <h1 class="mb20">
+        <h1>
             <?= $model->scenario == 'register' ? Html::encode($this->title): 'Редактировать пользователя' ?>
         </h1>
     </div>
@@ -32,10 +32,15 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
     echo $form->field($model, 'surname')->textInput();
     echo $form->field($model, 'patronymic')->textInput();
     echo $form->field($model, 'berry')->textInput();
+    echo $form->field($model, 'birth')->textInput();
+    echo $form->field($model, 'phone')->textInput();
+    echo $form->field($model, 'isu')->textInput();
+    echo $form->field($model, 'vk')->textInput();
     if (($model->scenario == 'update') && (User::findOne(['id' => $uid])->role_id <= User::ROLE_MANAGER)) {
-        echo $form->field($model, 'role_id')->dropDownList([
+        echo $form->field($model, 'role_id')->dropDownList([            
+            User::ROLE_DEPARTMENT_MANAGER => 'Менеджер направления',
             User::ROLE_MANAGER => 'Руководитель клуба',
-            User::ROLE_SECRETORY => 'Секретарь',
+            // User::ROLE_SECRETORY => 'Секретарь',
             User::ROLE_MEMBER => 'Участник'
         ]);
     }

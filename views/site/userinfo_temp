@@ -1,0 +1,43 @@
+<?php $form = ActiveForm::begin([
+            'id' => 'cash-form',
+            'layout' => 'horizontal',
+            'fieldConfig' => [
+                'template' => "
+                    <div class='row'><div class=\"col-md-12\">{input}</div></div>
+                    <div class='row'><div class=\"col-md-12\">{error}</div></div> ",
+                'labelOptions' => ['class' => 'col-md-12'],
+            ],
+            ]); 
+            // $skillList = Skill::find()->all();
+            echo $form->field($skillModel, 'skill')->widget(Select2::classname(), [
+                // 'data' => $skillList,
+                'data' => $skills,
+                'options' => ['placeholder' => 'Выберите ответственных исполнителей', 'multiple' => true],
+                'pluginOptions' => [
+                    'allowClear' => false,
+                ],
+            ]);
+
+
+            // $button = Html::submitButton('Изменить', ['class' => 'btn btn-success', ]);
+            // $form = "
+            // <h3>Добавить навык</h3>
+            // <div class='row' style='padding: 15px'>
+            //     <div class='col-md-5'>
+            //         {$form->field($skillModel, '')->widget(Select2::classname(), [
+            //             'data' => $users,
+            //             'options' => ['placeholder' => 'Выберите волонтеров', 'multiple' => true],
+            //             'pluginOptions' => [
+            //                 'allowClear' => false,
+            //             ],
+            //         ]);}
+            //     </div>
+            //     <div class='col-md-5'>
+            //         {$form->field($cashModel, 'comment')->textInput(['autofocus' => false, 'placeholder' => 'Комментарий'])}
+            //     </div>
+            //     <div class='col-md-2'>
+            //         {$button}
+            //     </div>
+            // </div>"; 
+            ?>
+        <?php ActiveForm::end(); ?>

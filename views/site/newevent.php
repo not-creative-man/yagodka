@@ -15,14 +15,19 @@ $this->title = "Отчет о мероприятии";
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files/icons/settings.png']);
 ?>
 
-<div class="col-md-6 col-md-offset-3">
+<div class="row">
+    <div class='page-header'>
+        <h1><?= $this->title ?></h1>
+    </div>
+    
+</div>
 
-    <h1 class="mb20">
-        <?= Html::encode($this->title) ?>
-    </h1>
+<div class="panel panel-default panel-new">
+
+    <div class="panel-wrapper-new">
 
     <?php
-    $form = ActiveForm::begin();
+    $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
 
     echo $form->field($model, 'name')->textInput(['autofocus' => true]);
     echo $form->field($model, 'date')->textInput(['placeholder' => 'дд.мм.гггг']);
@@ -101,8 +106,17 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
         ],
     ]);
 
-    echo Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'name' => 'register-button']);
+    echo $form->field($model, 'backimage')->fileInput();
+
+    echo Html::submitButton('Сохранить', ['class' => 'btn btn-red', 'name' => 'register-button']);
 
     ActiveForm::end();
     ?>
+    </div>
+    
 </div>
+
+
+<?php 
+    $this->registerCssFile('@web/css/new.css');
+?>

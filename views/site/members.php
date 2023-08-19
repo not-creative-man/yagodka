@@ -78,7 +78,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
                     <div id="inner-div">
                         <?php $i = 0 ; $count = 0; foreach ($users as $user):?>
                         <?php if(
-                        ($user->role_id  < "2") or ($user->role_id == 4)
+                        ($user->role_id  <= "2") or ($user->role_id == 4)
                         ) {
                             if($user->status == 0){
                         ?>
@@ -109,10 +109,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
                                                 'items' => [[
                                                     'label' => '', 
                                                     'tag' => 'i',
-                                                    'class' => '',
+                                                    'options'=>['class' => 'droplist-rating'],
                                                     'items' => [
-                                                        '<li>'.Html::a('Принять', ['site/confirm', 'uid' => $user->id], ['class' => 'btn btn-success']).'</li>',
-                                                        '<li>'.Html::a('Удалить', ['site/delete-user', 'uid' => $user->id], ['class' => 'btn btn-danger']).'</li>',
+                                                        ['label' => 'Принять', 'url' => ['site/confirm', 'uid' => $user->id], 'options' => ['class' => 'btn btn-success']],
+                                                        ['label' => 'Удалить', 'url' => ['site/delete-user', 'uid' => $user->id], 'options' => ['class' => 'btn btn-danger']],
                                                         // ['label' => 'Home', 'url' => ['site/index']],
                                                         // ['label' => 'Products', 'url' => ['product/index'], 'items' => [
                                                         //     ['label' => 'New Arrivals', 'url' => ['product/index', 'tag' => 'new']],
@@ -156,7 +156,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
                     <div id="inner-div">
                         <?php $i = 0 ; $count = 0; foreach ($users as $user):?>
                         <?php if(
-                        ($user->role_id  < "2") or ($user->role_id == 4)
+                            ($user->role_id  < "2") or  ($user->role_id == 4)
                         ) {
                             if($user->status != 0){
                         ?>
@@ -168,7 +168,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
                                 </div>
                                 <div class="col-xs-2">
                                     <div class="img-small-borders">
-                                        <img src="<?= \app\models\User::userAvatar(\app\models\User::findIdentity($user->id)) ?>" class="img-small">
+                                        <img src="<?= \app\models\User::userAvatar(\app\models\User::findIdentity($user->id)) ?>" class="img-small <?= ($user->status == 2)?('dryed'):('') ?>">
                                     </div>
                                 </div>
                                 <div class="col-xs-7">
@@ -188,10 +188,12 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
                                                     'items' => [[
                                                         'label' => '', 
                                                         'tag' => 'i',
-                                                        'class' => '',
+                                                        'options'=>['class' => 'droplist-rating'],
                                                         'items' => [
-                                                            '<li>'.Html::a('Заблокировать', ['site/confirm', 'uid' => $user->id], ['class' => 'btn btn-danger']).'</li>',
-                                                            '<li>'.Html::a('Засушить', ['site/dry-user', 'uid' => $user->id], ['class' => 'btn btn-danger']).'</li>',
+                                                            ['label' => 'Заблокировать', 'url' => ['site/confirm', 'uid' => $user->id], 'options' => ['class' => 'btn btn-danger']],
+                                                            ['label' => 'Засушить', 'url' => ['site/dry-user', 'uid' => $user->id], 'options' => ['class' => 'btn btn-danger']],
+                                                            // `'<li>'.Html::a('Заблокировать', ['site/confirm', 'uid' => $user->id], ['class' => 'btn btn-danger']).'</li>',
+                                                            // '<li>'.Html::a('Засушить', ['site/dry-user', 'uid' => $user->id], ['class' => 'btn btn-danger']).'</li>',
                                                             // ['label' => 'Home', 'url' => ['site/index']],
                                                             // ['label' => 'Products', 'url' => ['product/index'], 'items' => [
                                                             //     ['label' => 'New Arrivals', 'url' => ['product/index', 'tag' => 'new']],

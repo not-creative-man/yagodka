@@ -14,11 +14,17 @@ $this->title = "Добавить баллы за SMM";
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files/icons/settings.png']);
 ?>
 
-<div class="col-md-6 col-md-offset-3">
 
-    <h1 class="mb20">
-        <?= Html::encode($this->title) ?>
-    </h1>
+<div class="row">
+    <div class='page-header'>
+        <h1><?= $this->title ?></h1>
+    </div>
+    
+</div>
+
+<div class="panel panel-default panel-new">
+
+    <div class="panel-wrapper-new">
 
     <?php
     $form = ActiveForm::begin();
@@ -38,4 +44,12 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
 
     ActiveForm::end();
     ?>
-</div>
+    </div>
+    
+    </div>
+    
+
+
+<?php 
+    $this->registerCssFile('@web/css/new.css');
+?>

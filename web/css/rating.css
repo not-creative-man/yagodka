@@ -15,6 +15,18 @@ h1{
     display: flex;
     align-items: center;
 }
+/* 
+.col-xs-1{
+    padding-right: 30px !important;
+} */
+
+.col-xs-2{
+    padding: 0 60px 0 35px !important;
+}
+
+.col-xs-3 {
+    width: 0 !important;
+}
 
 .special{
     outline: 2px solid var(--main-red-clr);
@@ -22,6 +34,7 @@ h1{
 
 .special > .col-xs-1 > .table-text,
 .special > .col-xs-3 > .table-text > a,
+.special > .col-xs-3 > .table-text > span,
 .special > .col-xs-1 > .table-text > i {
     color: var(--main-red-clr) !important;
 }
@@ -64,14 +77,35 @@ h1{
 
 .drop-list > .nav > .open > .dropdown-menu{
     /* position: relative; */
-    left: -115px;
+    left: -113px;
     background-color: var(--main-white-color);
+    min-width: 0px;
+}
+
+img.dryed {
+    filter: grayscale();
 }
 
 .drop-list > .nav > .open > .dropdown-menu > li:first-child{
     margin-bottom: 5px;
 }
 
+.droplist-rating > .dropdown-menu > li {
+    padding: 0;
+    width: 100%;
+}
+
+.droplist-rating > .dropdown-menu > li > a {
+    color: var(--main-white-color) !important;
+    font-weight: 400 !important;
+    width: 100%;
+    padding: 5px;
+    min-width: 110px;
+}
+
+.droplist-rating > .dropdown-menu > li > a:hover{
+    background-color: rgba(0, 0, 0, 0);
+}
 
 @media(max-width: 500px){
     .row-even, .row-odd{

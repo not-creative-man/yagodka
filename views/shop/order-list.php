@@ -6,20 +6,6 @@
  * Time: 17:52
  */
 
-$this->title = 'Заказы';
-$this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files/icons/logo.png']);
-?>
-
-<div class="row">
-    <div class='page-header clearfix' style="margin-top: 0;">
-        <div class="col-md-6">
-            <h1><?= $this->title ?></h1>
-        </div>
-    </div>
-</div>
-
-<?php
-
 use app\models\Order;
 use app\models\Product;
 use app\models\User;
@@ -27,61 +13,66 @@ use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 
-$dataProvider = new ActiveDataProvider([
-    'query' => $orders,
-    'pagination' => [
-        'pageSize' => 20,
-    ],
-]);
-echo GridView::widget([
-    'dataProvider' => $dataProvider,
-    'summary' => "Показано <b>{count}</b> заказов из <b>{totalCount}</b>",
-    'columns' => [
-        [
-            'label' => 'Товар',
-            'attribute' => 'product_id',
-            'content' => function ($model, $key, $index, $column) {
-                $product = Product::findOne(["id" => $model->product_id]);
-                return $product->name;
-            }
-        ],
-        [
-            'label' => 'Стоимость',
-            'content' => function ($model, $key, $index, $column) {
-                $product = Product::findOne(["id" => $model->product_id]);
-                return $product->cost.'<span class="glyphicon glyphicon-apple"></span>';
-            }
-        ],
-        [
-            'label' => 'Заказчик',
-            'attribute' => 'user_id',
-            'content' => function ($model, $key, $index, $column) {
-                $user = User::findOne(["id" => $model->user_id]);
-                $link = Html::a($user->berry, ['/site/profile', 'uid' => $user->id], ['class' => 'berry-link']);
-                return $link;
-            }
-        ],
-        [
-            'label' => 'Статус',
-            'attribute' => 'status',
-            'content' => function ($model, $key, $index, $column) {
-                return $model->status == Order::NEED_ATTENDANCE?"Необходима выдача":"Выдан";
-            }
-        ],
-        [
-            'class' => '\yii\grid\ActionColumn',
-            'template' => '{complete} {delete}',
-            'buttons' => [
-                'complete' => function ($url, $model, $key) {
-                    if ($model->status == Order::COMPLETE) return "";
-                    return Html::a('Выполнен', ['shop/complete-order', 'order_id' => $model->id], ['class' => 'btn btn-success']);
-                },
-                'delete' => function ($url, $model, $key) {
-                    if ($model->status == Order::COMPLETE) return "";
-                    return Html::a('Удалить', ['shop/delete-order', 'order_id' => $model->id], ['class' => 'btn btn-danger']);
-                }
-            ]
+$this->title = 'Заказы';
+$this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files/icons/logo.png']);
+?>
 
-        ],
-    ]
-]);
+<div class='page-header userdata'>
+    <h1><?=$this->title?></h1>
+</div>
+
+
+
+
+<div class="panel panel-default panel-orderlist">
+    <!-- Default panel contents -->
+    <!-- Table -->
+    <div class="panel-wrapper-table">
+        <div class="header-line line">
+            <div class="tab-1-header tab-1"><span>Товар   </span></div>
+            <div class="tab-2"><span>Стоимость</span></div>
+            <div class="tab-3"><span>Заказчик      </span></div>
+            <div class="tab-4"><span>Статус      </span></div>
+            <div class="tab-5-header tab-5"></div>
+        </div>
+        <?php foreach ($orders as $item): ?>
+            <div class="line">
+                <div class="tab-1">
+                    <span class="name">
+                        <?php 
+                            $product = Product::findOne(["id" => $item->product_id]);
+                            echo $product->name;
+                        ?>
+                    </span>
+                </div>
+                <div class="tab-2">
+                    <?php
+                       $product = Product::findOne(["id" => $item->product_id]);
+                       echo $product->cost.'<span class="glyphicon glyphicon-apple"></span>';
+                    ?>
+                    
+                </div>
+                <div class="tab-3">
+                    <?php 
+                        $user = User::findOne(["id" => $item->user_id]);
+                        $link = Html::a($user->berry, ['/site/profile', 'uid' => $user->id], ['class' => 'berry-link']);
+                        echo $link;
+                    ?>
+                </div>
+                <div class="tab-4"><?= $model->status == Order::NEED_ATTENDANCE?"Необходима выдача":"Выдан"; ?></div>
+                <div class="tab-5">
+                    <?php 
+                        if($item->status == Order::COMPLETE) echo '';
+                        else{
+                            echo Html::a('Выполнен', ['shop/complete-order', 'order_id' => $model->id], ['class' => 'btn btn-success']);
+                            echo Html::a('Удалить', ['shop/delete-order', 'order_id' => $model->id], ['class' => 'btn btn-danger']);
+                        }
+                    ?>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+
+

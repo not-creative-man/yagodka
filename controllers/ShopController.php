@@ -76,7 +76,7 @@ class ShopController extends Controller
     public function actionOrderList() {
 //        $active_orders = Order::find()->where(['status' => Order::NEED_ATTENDANCE])->all();
 //        $complete_orders = Order::find()->where(['status' => Order::COMPLETE])->all();
-        $orders = Order::find();
+        $orders = Order::find()->orderBy(['id' => SORT_DESC])->all();
         return $this->render('order-list',
             [
                 'orders' => $orders,

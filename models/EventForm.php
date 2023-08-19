@@ -42,8 +42,19 @@ class EventForm extends Model
             [['volunteer', 'orgs', 'curator', 'responsible'], 'safe'],
             [['coverage', 'org', 'cluborg'], 'integer'],
             ['level', 'integer', 'min' => 1, 'max' => 7],
+            [['backimage'], 'file', 'extensions' => 'png, jpg'],
+            [['backimage'], 'file', 'maxSize' => 20000000]
         ];
     }
+
+    // public function register(){
+    //     if($this->validate()){
+    //         var_dump("aaaaaaaaaaa");
+    //     }else{
+    //         return false;
+    //     }
+    //     // return false;
+    // }
 
     public function register()
     {
@@ -55,7 +66,17 @@ class EventForm extends Model
 
         foreach ($this->attributes as $key => $value) {
             if ($key == 'mainorg' || $key == 'curator' || $key == 'orgs'  || $key == 'responsible' || $key == 'volunteer') continue;
-            $event->$key = $value;
+            else if ($key == 'backimage'){
+                if($value == null || $value == '') continue;
+                $filename = $this->formFileName();
+                $this->backimage->saveAs("files/eventcards/".$filename);
+                $value = $filename;
+
+                // if($user->img_url && file_exists("files/avatars/".$user->img_url)) unlink("files/avatars/".$user->img_url);
+
+                // $user->img_url = $filename;
+            }
+            $event->$key = $value;  
         }
 
         $event->status = 0;
@@ -196,6 +217,7 @@ class EventForm extends Model
             'volunteer' => 'Выберите волонтеров мероприятия',
             'responsible' => 'Выберите ответственных исполнителей мероприятия',
             'linksmedia' => 'Ссылки на медиа ресурсы',
+            'backimage' => 'Фоновое изображение'
         ];
     }
 
@@ -208,6 +230,17 @@ class EventForm extends Model
             'linksmedia' => 'Ссылки на фото и видео',
         ];
     }
+
+    private function formFileName()
+        {
+            $timestamp = new \DateTime();
+            $timestamp = $timestamp->getTimestamp();
+            if($this->backimage == null || $this->backimage == ''){
+                return null;
+            } 
+            $filename =  $timestamp . '.' . $this->backimage->extension;
+            return $filename;
+        }
 
     public function attributePlaceholders() {
         return [

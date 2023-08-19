@@ -9,6 +9,8 @@ use yii\helpers\Html;
 
 $this->title = 'Ягодка';
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files/icons/logo.png']);
+// $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <style>
@@ -99,36 +101,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
                 </div>
                 <div class="button-wrapper">
                     <a class="btn btn-reg" href="https://vk.com/@yagodka_club-reglament">Как вступить?</a>
-
-                        <?php
-                        Modal::begin([
-                            'header' => '<h2>регистрация</h2>',
-                            'toggleButton' => [
-                                'label' => 'Регистрация',
-                                'tag' => 'button',
-                                'class' => 'btn btn-reg',
-                            ],
-                        ]);
-                    ?>
-
-                    <?php $form = ActiveForm::begin(); ?>
-
-                    <?= $form->field($model, 'username')->textInput(['autofocus' => true]); ?>
-                    <?= $form->field($model, 'password')->passwordInput(); ?>
-                    <?= $form->field($model, 'password_repeat')->passwordInput(); ?>
-                    <?= $form->field($model, 'name')->textInput(); ?>
-                    <?= $form->field($model, 'surname')->textInput(); ?>
-                    <?= $form->field($model, 'patronymic')->textInput(); ?>
-                    <?= $form->field($model, 'isu')->textInput()->label("<i class=\"far fa-address-card\"></i> Табельный номер ИСУ"); ?>
-                    <?= $form->field($model, 'birth')->textInput(); ?>
-                    <?= $form->field($model, 'berry')->textInput(); ?>
-                    <?= $form->field($model, 'phone')->textInput(['autofocus' => true])->label("<i class='fas fa-phone'></i> Номер телефона") ?>
-                    <?= $form->field($model, 'vk')->textInput()->label("<i class=\"fab fa-vk\"></i> Ссылка ВК") ?>
-                    <?= Html::submitButton('Применить' ,['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-
-                    <?php ActiveForm::end(); ?>
-
-                    <?php Modal::end() ?>
+                    <?php echo Html::a('Регистрация', ['/site/register'], ['class'=>'btn btn-reg btn-lg']) ?>
+                
+                       
                 </div>
 
             </div>
@@ -138,7 +113,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files
             
         </div>
     <?php endif; ?>
-    <?= Html::a('Регистер', ['/site/register'], ['class'=>'btn btn-lg btn-info', 'style' => 'display: none;']); ?>
+    <?= Html::a('Регистрация', ['/site/register'], ['class'=>'btn btn-lg btn-info', 'style' => 'display: none;']); ?>
 
     
 </div>

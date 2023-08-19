@@ -30,6 +30,6 @@ class Cash extends ActiveRecord
     }
 
     public static function findByUID($uid) {
-        return self::findOne(['user_id' => $uid]);
+        return self::find()->where(['user_id' => $uid])->orderBy(['id'=>SORT_DESC])->one();
     }
 }

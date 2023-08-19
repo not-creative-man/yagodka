@@ -8,10 +8,12 @@ use app\models\Event;
 use app\models\EventForm;
 use app\models\EventToUser;
 use app\models\IndexForm;
+use app\models\SkillForm;
 use app\models\Task;
 use app\models\TaskForm;
 use app\models\TaskToUser;
 use app\models\JourneyForm;
+use app\models\MeetingForm;
 use app\models\Order;
 use app\models\OrgForm;
 use app\models\Post;
@@ -204,8 +206,10 @@ class SiteController extends Controller
         $userattributes = $user->userAttributes;
         $ratingModel = new RatingForm;
         $сashModel = new CashForm;
+        // $skillModel = new SkillForm;
         $events = $user->events;
         $tasks = $user->tasks;
+        // $skills = $user->skills;
 
         if ($ratingModel->load(Yii::$app->request->post()) && $ratingModel->changeRating($uid)){
             $user = User::findIdentity($uid);
@@ -215,6 +219,10 @@ class SiteController extends Controller
             $user = User::findIdentity($uid);
             $сashModel = new CashForm;
         }
+        // if ($skillModel->load(Yii::$app->request->post()) && $skillModel->changeSkill($uid)){
+        //     $user = User::findIdentity($uid);
+        //     $skillModel = new SkillForm;
+        // }
         return $this->render('userinfo',
             [
                 'user' => $user,
@@ -222,7 +230,8 @@ class SiteController extends Controller
                 'ratingModel' => $ratingModel,
                 'cashModel' => $сashModel,
                 'events' => $events,
-                'tasks' => $tasks
+                'tasks' => $tasks,
+                //'skills' => $skills
             ]);
     }
 
@@ -312,7 +321,7 @@ class SiteController extends Controller
         ]);
     }
     public function actionUsercash($uid) {
-        $cash = Cash::find()->where(['user_id' => $uid])->all();
+        $cash = Cash::find()->where(['user_id' => $uid])->orderBy(['id'=>SORT_DESC])->all();
         $user = User::findIdentity($uid);
         //var_dump($cash);
         //die;
@@ -336,16 +345,25 @@ class SiteController extends Controller
                 $curators[$user->id] = $user->berry;
             }
         }
-        if ($model->load(Yii::$app->request->post()) && $model->register()){
-            return $this->goBack();
+        if ($model->load(Yii::$app->request->post())){
+            $model->backimage = UploadedFile::getInstance($model, 'backimage');
+            if($model->register()){
+                return $this->goBack();            
+            }
         }
-
         return $this->render('newevent', [
             'model' => $model,
             'users' => $users,
             'curators' => $curators
         ]);
     }
+
+    public function actionUpdateUserAttr(){
+        $model = UserAttributes::find()->all();
+        
+        var_dump($model);
+        return false;
+    } 
 
 //    public function actionAddorg($eid) {
 //        $orgModel = new OrgForm();
@@ -373,8 +391,8 @@ class SiteController extends Controller
 //    }
 
     public function actionEvents(){
-        $trueEvents = Event::find()->where(['status' => 1])->all();
-        $ucEvents = Event::find()->where(['status' => 0])->all();
+        $trueEvents = Event::find()->select('{{event}}.*')->where(['status' => 1])->orderBy(['id' => SORT_DESC])->all();
+        $ucEvents = Event::find()->select('{{event}}.*')->where(['status' => 0])->orderBy(['id' => SORT_DESC])->all();
 
         return $this->render('events', [
             'trueEvents' => $trueEvents,
@@ -517,8 +535,8 @@ class SiteController extends Controller
 
     public function actionTasks(){
         $tasks = Task::find()->where( ['status' => 1] or ['status' => 0])->all(); //все задачи
-        $didTasks = Task::find()->where(['status' => 1])->all(); //завершенные задачи
-        $newTasks = Task::find()->where(['status' => 0])->all(); //свободные задачи
+        $didTasks = Task::find()->where(['status' => 1])->orderBy((['id' => SORT_DESC]))->all(); //завершенные задачи
+        $newTasks = Task::find()->where(['status' => 0])->orderBy((['id' => SORT_DESC]))->all(); //свободные задачи
 
         $users = []; //все юзеры задействованные в задачах
         //проход по каждой задаче
@@ -612,10 +630,17 @@ class SiteController extends Controller
     public function actionEditUser($uid){
         $model = new RegistrationForm();
         $user = User::findOne(['id' => $uid]);
+        $userAttr = UserAttributes::find()->where(['user_id' => $uid])->one();
+
+        var_dump($userAttr->attributes);
 
         foreach ($model->attributes as $key => $value) {
             if ($key == 'password_repeat') continue;
-            $model->$key = $user->$key;
+            if ( $key == 'isu' || $key == 'phone' || $key == 'vk' ){
+                $model->$key = $userAttr->$key;
+            } else {
+                $model->$key = $user->$key;
+            }
         }
 
         $model->scenario = 'update';
@@ -660,6 +685,26 @@ class SiteController extends Controller
         }
 
         return $this->render('journey',
+            [
+                'model' => $model,
+                'users' => $users
+            ]
+        );
+    }
+
+    public function actionMeeting() {
+        $model = new MeetingForm();
+        $allusers = User::find()->where(['status' => 1])->all();
+        $users = [];
+        foreach ($allusers as $user) {
+            $users[$user->id] = $user->berry;
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->add()){
+            return $this->redirect(['site/rating']);
+        }
+
+        return $this->render('meeting',
             [
                 'model' => $model,
                 'users' => $users

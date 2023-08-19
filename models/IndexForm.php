@@ -29,7 +29,7 @@ class IndexForm extends Model
     public function rules()
     {
         return [
-            [['username', 'password', 'name', 'surname', 'berry', 'vk', 'phone', 'birth'], 'required', 'message' => "Это поле не может быть пустым"],
+            [['username', 'password', 'name', 'surname', 'berry', 'birth'], 'required', 'message' => "Это поле не может быть пустым"], //, 'vk', 'phone'
             ['username', 'unique', 'targetClass' => User::class, 'message' => 'Этот логин уже занят, используйте другой'],
             ['berry', 'unique', 'targetClass' => User::class, 'message' => 'Эта ягода уже занята, используйте другую'],
             //['email','unique','targetClass'=>User::class,'message' => 'Пользователь с таким адресом уже зарегистрирован'],
@@ -52,8 +52,17 @@ class IndexForm extends Model
     }
 
 
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        // $scenarios['update'] = ['name', 'surname', 'role_id'];
+        $scenarios['register'] = ['username', 'password', 'password_repeat', 'name', 'surname', 'berry', 'role_id', 'status', 'patronymic'];
+        return $scenarios;
+    }
+
+
     /* Форма регистрации не работает нормально 
-        Как вариант можно попробовать сделать два окна регистрации подряд, вопрос лишь в том, как работает вызов
+        TODO:Как вариант можно попробовать сделать два окна регистрации подряд, вопрос лишь в том, как работает вызов
     */
     public function register()
     {
@@ -66,31 +75,33 @@ class IndexForm extends Model
         $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
         foreach ($this->attributes as $key => $value) {
             if ($key == 'password_repeat') continue;
-            else if ($key == 'phone' || 
-                     $key == 'isu' ||
-                     $key == 'email' ||
-                     $key == 'vk'){
-                        array_push($userAttrs, [ $key => $value ]);
-                     }
+            // else if ($key == 'phone' || 
+            //          $key == 'isu' ||
+            //          $key == 'email' ||
+            //          $key == 'vk'){
+            //             array_push($userAttrs, [ $key => $value ]);
+            //          }
             else $user->$key = $value;
         }
-        if($user->save() !== false){
-            file_put_contents('@web/log.txt', $user);
-            $user = Yii::$app->user->identity;
-            foreach ($userAttrs as $key => $value) {
-                $attr = UserAttributes::find()->where(['user_id' => Yii::$app->user->identity->getId(), 'attribute_name' => $key])->one();
-                $attr = $attr ? $attr : new UserAttributes();
-                $attr->user_id = $user->id;
-                switch($key){
-                    case 'phone': $attr->phone = $value; break;
-                    case 'isu' : $attr->isu = $value; break;
-                    case 'email' : $attr->email = $value; break;
-                    case 'vk' : $attr->vk = $value; break;
-                }
-                $attr->save();
-            }
-        }
-        return false;
+        return $user->save();
+        // var_dump($userAttrs);
+        // if($user->save() !== false){
+        //     file_put_contents('@web/log.txt', $user);
+        //     $user = Yii::$app->user->identity;
+        //     foreach ($userAttrs as $key => $value) {
+        //         $attr = UserAttributes::find()->where(['user_id' => Yii::$app->user->identity->getId(), 'attribute_name' => $key])->one();
+        //         $attr = $attr ? $attr : new UserAttributes();
+        //         $attr->user_id = $user->id;
+        //         switch($key){
+        //             case 'phone': $attr->phone = $value; break;
+        //             case 'isu' : $attr->isu = $value; break;
+        //             case 'email' : $attr->email = $value; break;
+        //             case 'vk' : $attr->vk = $value; break;
+        //         }
+        //         // $attr->save();
+        //     }
+        // }
+        // return false;
 
     }
 

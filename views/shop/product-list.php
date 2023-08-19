@@ -16,93 +16,80 @@ $this->title = 'Товары';
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => 'files/icons/settings.png']);
 ?>
 
-<div class="row">
-    <div class='page-header clearfix' style="margin-top: 0;">
-        <div class="col-md-6">
-            <h1><?= $this->title ?></h1>
+
+<div class='page-header userdata'>
+    <h1><?=$this->title?></h1>
+</div>
+
+<?php if(!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MEMBER): ?>
+    <div class="button-wrapper-events">
+        <h1><?= Html::a('Добавить товар', ['shop/create-product'], ['class' => 'btn btn-success pull-right']) ?></h1>
+    </div>
+<?php endif; ?>
+
+
+<div class="panel panel-default panel-productlist">
+    <!-- Default panel contents -->
+    <!-- Table -->
+    <div class="panel-wrapper-table">
+        <div class="header-line line">
+            <div class="tab-1-header tab-1"><span>Название   </span></div>
+            <div class="tab-2"><span>Размеры</span></div>
+            <div class="tab-3"><span>Цвета      </span></div>
+            <div class="tab-4"><span>Статус      </span></div>
+            <div class="tab-5"><span>Стоимость      </span></div>
+            <div class="tab-6-header tab-6"><span>      </span></div>
         </div>
-        <?php if(!Yii::$app->user->isGuest&&Yii::$app->user->identity->role_id >= User::ROLE_MEMBER): ?>
-            <div class="col-md-6">
-                <h1><?= Html::a('Добавить товар', ['shop/create-product'], ['class' => 'btn btn-success pull-right']) ?></h1>
+        <?php foreach ($product_list as $item): ?>
+            <div class="line">
+                <div class="tab-1"><span class="name"><?= $item->name ?>  </span></div>
+                <div class="tab-2">
+                    
+                        <?php
+                            $sizes = $item->size; 
+                            if (!$sizes) echo "Размеры не заданы";
+                            else {
+                                $size_list = json_decode($sizes)->size;
+                                $color_squares = "";
+                                foreach ($size_list as $size){
+                                    $color_squares .= "<a href='#' class='btn btn-primary' role='button' style='background-color: #9c5685; border-color: #9c5685'>$size</a> ";
+                                }
+                                echo "<div>$color_squares</div>";
+                            }
+                        ?>
+                    
+                </div>
+                <div class="tab-3">
+                        <?php 
+                            $colors = $item->color;
+                            if (!$colors) echo "Цвета не заданы";
+                            else {
+                                $color_list = json_decode($colors)->color;
+                                $color_squares = "";
+                                foreach ($color_list as $color){
+                                    $color_squares .= "<a href='#' class='btn btn-primary' role='button' style='background-color: $color; border-color: $color; color: $color;'>M</a> ";
+                                }
+                                echo "<div>$color_squares</div>";
+                            }
+                        ?>
+                </div>
+                <div class="tab-4"><?= $item->active?"Доступен для покупки":"Недоступен для покупки"; ?></div>
+                <div class="tab-5"><div><?= $item->cost.'<span class="glyphicon glyphicon-apple"></span>'; ?></div></div>
+                <div class="tab-6">
+                    <?php 
+                        echo Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['shop/update-product', 'product_id' => $item->id]);
+                        if($item->active)
+                            echo Html::a('<span class="glyphicon glyphicon-eye-close"></span>', ['shop/disable-product', 'product_id' => $item->id]);
+                        else 
+                            echo Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['shop/enable-product', 'product_id' => $item->id]);
+                    ?>
+                </div>
             </div>
-        <?php endif; ?>
+        <?php endforeach; ?>
     </div>
 </div>
 
-<?php
 
-$dataProvider = new ActiveDataProvider([
-    'query' => Product::find(),
-    'pagination' => [
-        'pageSize' => 20,
-    ],
-]);
-echo GridView::widget([
-    'dataProvider' => $dataProvider,
-    'summary' => "Показано <b>{count}</b> товаров из <b>{totalCount}</b>",
-    'columns' => [
-        [
-            'label' => 'Название',
-            'attribute' => 'name'
-        ],
-        [
-            'label' => 'Размеры',
-            'attribute' => 'size',
-            'content' => function ($model, $key, $index, $column) {
-                if (!$model->size) return "Размеры не заданы";
-                $size_list = json_decode($model->size)->size;
-                $color_squares = "";
-                foreach ($size_list as $size){
-                    $color_squares .= "<a href='#' class='btn btn-primary' role='button' style='background-color: #9c5685; border-color: #9c5685'>$size</a> ";
-                }
-                $color_view = "<div>$color_squares</div>";
-                return $color_view;
-            }
-        ],
-        [
-            'label' => 'Цвета',
-            'attribute' => 'color',
-            'content' => function ($model, $key, $index, $column) {
-                if (!$model->color) return "Цвета не заданы";
-                $color_list = json_decode($model->color)->color;
-                $color_squares = "";
-                foreach ($color_list as $color){
-                    $color_squares .= "<a href='#' class='btn btn-primary' role='button' style='background-color: $color; border-color: $color; color: $color;'>M</a> ";
-                }
-                $color_view = "<div>$color_squares</div>";
-                return $color_view;
-            }
-        ],
-        [
-            'label' => 'Статус',
-            'attribute' => 'active',
-            'content' => function ($model, $key, $index, $column) {
-                return $model->active?"Доступен для покупки":"Недоступен для покупки";
-            }
-        ],
-        [
-            'label' => 'Стоимость',
-            'attribute' => 'active',
-            'content' => function ($model, $key, $index, $column) {
-                return $model->cost.'<span class="glyphicon glyphicon-apple"></span>';
-            }
-        ],
-        [
-            'class' => '\yii\grid\ActionColumn',
-            'template' => '{update} {disable} {enable}',
-            'buttons' => [
-                'update' => function ($url, $model, $key) {
-                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['shop/update-product', 'product_id' => $model->id]);
-                },
-                'disable' => function ($url, $model, $key) {
-                    if (!$model->active) return "";
-                    return Html::a('<span class="glyphicon glyphicon-eye-close"></span>', ['shop/disable-product', 'product_id' => $model->id]);
-                },
-                'enable' => function ($url, $model, $key) {
-                    if ($model->active) return "";
-                    return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['shop/enable-product', 'product_id' => $model->id]);
-                }
-            ]
-        ],
-    ]
-]);
+<?php 
+    $this->registerCssFile('@web/css/product-list.css');
+?>
